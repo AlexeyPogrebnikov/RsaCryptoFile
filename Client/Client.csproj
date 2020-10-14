@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6AAE8C3D-7382-44CC-A2ED-23145733663C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CryptoFile.Client</RootNamespace>
+    <AssemblyName>CryptoFile.Client</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.6.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\AboutProgramCommand.cs" />
+    <Compile Include="Commands\ChangeLanguageCommand.cs" />
+    <Compile Include="Commands\CipherCommand.cs" />
+    <Compile Include="Commands\CommandsContainer.cs" />
+    <Compile Include="Commands\DecipherCommand.cs" />
+    <Compile Include="Commands\ExitCommand.cs" />
+    <Compile Include="Commands\GenerateKeysCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ICommandsContainer.cs" />
+    <Compile Include="Commands\RefreshCryptoViewsCommand.cs" />
+    <Compile Include="Commands\RefreshDirectoryCommand.cs" />
+    <Compile Include="Commands\ToUpperFolderCommand.cs" />
+    <Compile Include="Compression\CompressionException.cs" />
+    <Compile Include="Compression\IZipAlgorithm.cs" />
+    <Compile Include="Compression\ZipAlgorithm.cs" />
+    <Compile Include="Configuration\ColorXml.cs" />
+    <Compile Include="Configuration\Language.cs" />
+    <Compile Include="Controls\AddressToolBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AddressToolBar.Designer.cs">
+      <DependentUpon>AddressToolBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FilesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FilesView.Designer.cs">
+      <DependentUpon>FilesView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IAddressToolBar.cs" />
+    <Compile Include="Controls\ICommonMenu.cs" />
+    <Compile Include="Controls\IControl.cs" />
+    <Compile Include="Controls\ICryptoView.cs" />
+    <Compile Include="Controls\IFilesView.cs" />
+    <Compile Include="Controls\IToolBarView.cs" />
+    <Compile Include="Crypto\IncorrectPrivateKeyException.cs" />
+    <Compile Include="Crypto\IRsaCryptoFile.cs" />
+    <Compile Include="Crypto\IRsaFactory.cs" />
+    <Compile Include="Crypto\IRsaFileCipher.cs" />
+    <Compile Include="Crypto\IRsaFileDecipher.cs" />
+    <Compile Include="Crypto\ProcessStatus.cs" />
+    <Compile Include="Crypto\RsaCryptoFile.cs" />
+    <Compile Include="Crypto\RsaFactory.cs" />
+    <Compile Include="Crypto\RsaFileCipher.cs" />
+    <Compile Include="Crypto\RsaFileCipherZipDecorator.cs" />
+    <Compile Include="Crypto\RsaFileDecipher.cs" />
+    <Compile Include="Crypto\RsaFileDecipherZipDecorator.cs" />
+    <Compile Include="Crypto\TooHighVersionException.cs" />
+    <Compile Include="Environment\EnvironmentHelper.cs" />
+    <Compile Include="Environment\IEnvironmentHelper.cs" />
+    <Compile Include="ErrorSender.cs" />
+    <Compile Include="Forms\AboutProgramForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutProgramForm.Designer.cs">
+      <DependentUpon>AboutProgramForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DecipherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DecipherForm.Designer.cs">
+      <DependentUpon>DecipherForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormFactory.cs" />
+    <Compile Include="Forms\IAboutProgramForm.cs" />
+    <Compile Include="Forms\IDecipherForm.cs" />
+    <Compile Include="Forms\IForm.cs" />
+    <Compile Include="Controls\ToolBarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ToolBarView.Designer.cs">
+      <DependentUpon>ToolBarView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\IFormFactory.cs" />
+    <Compile Include="Forms\IPropertiesForm.cs" />
+    <Compile Include="Forms\IPublicExponentForm.cs" />
+    <Compile Include="Forms\IUnhandledExceptionForm.cs" />
+    <Compile Include="Forms\PropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PropertiesForm.Designer.cs">
+      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PublicExponentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PublicExponentForm.Designer.cs">
+      <DependentUpon>PublicExponentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UnhandledExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UnhandledExceptionForm.Designer.cs">
+      <DependentUpon>UnhandledExceptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Crypto\IKeyGenerator.cs" />
+    <Compile Include="IMessageHelper.cs" />
+    <Compile Include="Management\CipherManager.cs" />
+    <Compile Include="Management\DecipherManager.cs" />
+    <Compile Include="Mapi\MapiException.cs" />
+    <Compile Include="Mapi\MapiMessage.cs" />
+    <Compile Include="Mapi\MapiRecipDesc.cs" />
+    <Compile Include="Mapi\MapiResult.cs" />
+    <Compile Include="Mapi\RecipClass.cs" />
+    <Compile Include="MessageHelper.cs" />
+    <Compile Include="Presenters\AboutProgramFormPresenter.cs" />
+    <Compile Include="Presenters\CipherFormPresenter.cs" />
+    <Compile Include="Configuration\Options.cs" />
+    <Compile Include="Configuration\OptionsSaver.cs" />
+    <Compile Include="Forms\GenerateKeysForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GenerateKeysForm.Designer.cs">
+      <DependentUpon>GenerateKeysForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CipherForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CipherForm.Designer.cs">
+      <DependentUpon>CipherForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ICipherForm.cs" />
+    <Compile Include="Presenters\DecipherFormPresenter.cs" />
+    <Compile Include="Presenters\FilesViewPresenter.cs" />
+    <Compile Include="Presenters\GenerateKeysFormPresenter.cs" />
+    <Compile Include="Presenters\IFilesViewPresenter.cs" />
+    <Compile Include="Presenters\ToolBarPresenter.cs" />
+    <Compile Include="Serialization\BigNumberFormatException.cs" />
+    <Compile Include="Serialization\BigNumberHexSerializer.cs" />
+    <Compile Include="Serialization\IBigNumberSerializer.cs" />
+    <Compile Include="Forms\IGenerateKeysForm.cs" />
+    <Compile Include="Forms\IMainForm.cs" />
+    <Compile Include="Controls\IMainMenuView.cs" />
+    <Compile Include="Crypto\KeyGenerator.cs" />
+    <Compile Include="Serialization\KeySerializationException.cs" />
+    <Compile Include="Serialization\KeySerializer.cs" />
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presenters\MainFormPresenter.cs" />
+    <Compile Include="Presenters\MainMenuPresenter.cs" />
+    <Compile Include="Controls\MainMenuView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainMenuView.Designer.cs">
+      <DependentUpon>MainMenuView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\AddressToolBar.resx">
+      <DependentUpon>AddressToolBar.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FilesView.resx">
+      <DependentUpon>FilesView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ToolBarView.resx">
+      <DependentUpon>ToolBarView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AboutProgramForm.resx">
+      <DependentUpon>AboutProgramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DecipherForm.resx">
+      <DependentUpon>DecipherForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GenerateKeysForm.resx">
+      <DependentUpon>GenerateKeysForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainMenuView.resx">
+      <DependentUpon>MainMenuView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CipherForm.resx">
+      <DependentUpon>CipherForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PropertiesForm.resx">
+      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PublicExponentForm.resx">
+      <DependentUpon>PublicExponentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UnhandledExceptionForm.resx">
+      <DependentUpon>UnhandledExceptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{107A98D9-9C40-40FD-9EB0-0CDB1E3A22AE}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{46355F48-C304-4BCD-9D9E-DEA1A425D510}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cipher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\decipher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\photo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\descending.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Resources\ascending.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

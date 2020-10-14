@@ -1,0 +1,103 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EBBEF0DE-E299-46FA-B53A-274502F88B5C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CryptoFile.Client.Tests</RootNamespace>
+    <AssemblyName>CryptoFile.Client.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\AboutProgramCommand_Test.cs" />
+    <Compile Include="Commands\ChangeLanguageCommand_Test.cs" />
+    <Compile Include="Commands\CipherCommand_Test.cs" />
+    <Compile Include="Commands\DecipherCommand_Test.cs" />
+    <Compile Include="Commands\GenerateKeysCommand_Test.cs" />
+    <Compile Include="Commands\RefreshCryptoViewsCommand_Test.cs" />
+    <Compile Include="Commands\RefreshDirectoryCommand_Test.cs" />
+    <Compile Include="Commands\ToUpperFolderCommand_Test.cs" />
+    <Compile Include="Compression\ZipAlgorithm_Test.cs" />
+    <Compile Include="Crypto\KeyGenerator_Test.cs" />
+    <Compile Include="Crypto\RsaFactory_Test.cs" />
+    <Compile Include="Crypto\RsaFileCipherZipDecorator_Test.cs" />
+    <Compile Include="Crypto\RsaFileCipher_Test.cs" />
+    <Compile Include="Crypto\RsaFileDecipherZipDecorator_Test.cs" />
+    <Compile Include="Crypto\RsaFileDecipher_Test.cs" />
+    <Compile Include="Environment\EnvironmentHelper_Test.cs" />
+    <Compile Include="Forms\FormFactory_Test.cs" />
+    <Compile Include="Management\CipherManager_Test.cs" />
+    <Compile Include="Management\DecipherManager_Test.cs" />
+    <Compile Include="Presenters\AboutProgramFormPresenter_Test.cs" />
+    <Compile Include="Presenters\CipherFormPresenter_Test.cs" />
+    <Compile Include="Presenters\DecipherFormPresenter_Test.cs" />
+    <Compile Include="Presenters\FilesViewPresenter_Tests.cs" />
+    <Compile Include="Presenters\GenerateKeysFormPresenter_Test.cs" />
+    <Compile Include="Presenters\MainFormPresenter_Test.cs" />
+    <Compile Include="Presenters\MainMenuPresenter_Test.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\BigNumberHexSerializer_Test.cs" />
+    <Compile Include="Serialization\KeySerializer_Test.cs" />
+    <Compile Include="TestHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj">
+      <Project>{6AAE8C3D-7382-44CC-A2ED-23145733663C}</Project>
+      <Name>Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{107A98D9-9C40-40FD-9EB0-0CDB1E3A22AE}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{46355F48-C304-4BCD-9D9E-DEA1A425D510}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
