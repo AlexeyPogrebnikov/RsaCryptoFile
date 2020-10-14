@@ -1,1 +1,14 @@
 lib/
+.vs/
+Client/bin/
+Client/obj/
+Client.Tests/bin/
+Client.Tests/obj/
+IO/bin/
+IO/obj/
+IO.Tests/bin/
+IO.Tests/obj/
+Library/bin/
+Library/obj/
+Library.Tests/bin/
+Library.Tests/obj/
