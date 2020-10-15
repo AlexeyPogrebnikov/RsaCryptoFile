@@ -1,7 +1,9 @@
 using System;
 
-namespace CryptoFile.Client.Crypto {
-	public interface IRsaCryptoFile {
+namespace CryptoFile.Client.Crypto
+{
+	public interface IRsaCryptoFile
+	{
 		event EventHandler BlockCompleted;
 		void Stop();
 		void Restart();

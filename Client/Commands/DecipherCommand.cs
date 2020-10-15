@@ -9,8 +9,10 @@ using CryptoFile.IO.Entities;
 using CryptoFile.IO.Unification;
 using CryptoFile.Library;
 
-namespace CryptoFile.Client.Commands {
-	class DecipherCommand : ICommand {
+namespace CryptoFile.Client.Commands
+{
+	internal class DecipherCommand : ICommand
+	{
 		private readonly ICommandsContainer commandsContainer;
 		private readonly IFilesView filesView;
 		private readonly IRsaFactory rsaFactory;
@@ -21,12 +23,13 @@ namespace CryptoFile.Client.Commands {
 
 		/// <exception cref="ArgumentNullException">commandsContainer is null</exception>
 		public DecipherCommand(ICommandsContainer commandsContainer,
-		                       IFilesView filesView,
-		                       IRsaFactory rsaFactory,
-		                       IEnvironmentHelper environmentHelper,
-		                       IFormFactory formFactory,
-		                       IMessageHelper messageHelper,
-		                       IFileUnifier fileUnifier) {
+			IFilesView filesView,
+			IRsaFactory rsaFactory,
+			IEnvironmentHelper environmentHelper,
+			IFormFactory formFactory,
+			IMessageHelper messageHelper,
+			IFileUnifier fileUnifier)
+		{
 			Checker.CheckNull(commandsContainer);
 			this.commandsContainer = commandsContainer;
 			this.filesView = filesView;
@@ -39,23 +42,28 @@ namespace CryptoFile.Client.Commands {
 
 		#region ICommand Members
 
-		public void Execute() {
-			var file = filesView.SelectedFile;
-			if (!CheckFile(file)) {
+		public void Execute()
+		{
+			FileEntity file = filesView.SelectedFile;
+			if (!CheckFile(file))
+			{
 				throw new InvalidOperationException("Selected file is null or is not rsa.");
 			}
-			using (var form = formFactory.CreateDecipherForm()) {
+
+			using (IDecipherForm form = formFactory.CreateDecipherForm())
+			{
 				form.InputFileName = file.FullName;
 				var serializer = new KeySerializer(new BigNumberHexSerializer());
 				new DecipherFormPresenter(form, rsaFactory, serializer, commandsContainer, file, environmentHelper, messageHelper,
-				                          fileUnifier);
+					fileUnifier);
 				form.ShowDialog();
 			}
 		}
 
 		#endregion
 
-		private static bool CheckFile(FileSystemEntity file) {
+		private static bool CheckFile(FileSystemEntity file)
+		{
 			return file != null && file.IsCryptoFile;
 		}
 	}

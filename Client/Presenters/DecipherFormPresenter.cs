@@ -12,8 +12,10 @@ using CryptoFile.IO.Unification;
 using CryptoFile.Library;
 using CryptoFile.Library.Keys;
 
-namespace CryptoFile.Client.Presenters {
-	class DecipherFormPresenter {
+namespace CryptoFile.Client.Presenters
+{
+	internal class DecipherFormPresenter
+	{
 		private readonly IDecipherForm form;
 		private readonly IRsaFactory rsaFactory;
 		private IRsaFileDecipher rsaFileDecipher;
@@ -27,13 +29,14 @@ namespace CryptoFile.Client.Presenters {
 
 		/// <exception cref="ArgumentNullException">any argument is null</exception>
 		public DecipherFormPresenter(IDecipherForm form,
-		                             IRsaFactory rsaFactory,
-		                             KeySerializer keySerializer,
-		                             ICommandsContainer commandsContainer,
-		                             FileSystemEntity initialFile,
-		                             IEnvironmentHelper environmentHelper,
-		                             IMessageHelper messageHelper,
-		                             IFileUnifier fileUnifier) {
+			IRsaFactory rsaFactory,
+			KeySerializer keySerializer,
+			ICommandsContainer commandsContainer,
+			FileSystemEntity initialFile,
+			IEnvironmentHelper environmentHelper,
+			IMessageHelper messageHelper,
+			IFileUnifier fileUnifier)
+		{
 			Checker.CheckNull(form, rsaFactory, keySerializer, commandsContainer, initialFile);
 			this.form = form;
 			this.rsaFactory = rsaFactory;
@@ -49,39 +52,52 @@ namespace CryptoFile.Client.Presenters {
 			form.PrivateKeyChanged += form_PrivateKeyChanged;
 		}
 
-		private static string GetOutputDirectoryPath(FileSystemEntity initialFile) {
-			var fullName = initialFile.FullName;
+		private static string GetOutputDirectoryPath(FileSystemEntity initialFile)
+		{
+			string fullName = initialFile.FullName;
 			return fullName.Remove(fullName.Length - initialFile.Extension.Length);
 		}
 
-		private void form_CancelDecipher(object sender, EventArgs e) {
-			if (rsaFileDecipher != null && rsaFileDecipher.Status == ProcessStatus.Processing) {
+		private void form_CancelDecipher(object sender, EventArgs e)
+		{
+			if (rsaFileDecipher != null && rsaFileDecipher.Status == ProcessStatus.Processing)
+			{
 				rsaFileDecipher.Stop();
 				RefreshThread();
-			} else {
+			}
+			else
+			{
 				form.DialogResult = DialogResult.Cancel;
 			}
 		}
 
-		private void decipher_BlockCompleted(object sender, EventArgs e) {
-			double percent = 100*rsaFileDecipher.CurrentBlock;
+		private void decipher_BlockCompleted(object sender, EventArgs e)
+		{
+			double percent = 100 * rsaFileDecipher.CurrentBlock;
 			percent /= rsaFileDecipher.TotalBlocks;
 			form.ProgressPercent = Convert.ToInt32(percent);
 		}
 
-		private void form_Decipher(object sender, EventArgs e) {
-			if (environmentHelper.DirectoryExists(form.OutputDirectoryPath)) {
-				var dialogResult = messageHelper.Show("Directory already exists. Would you like to overwrite it?",
-				                                      "Папка уже существует. Вы хотите перезаписать ее?", MessageBoxButtons.YesNo);
+		private void form_Decipher(object sender, EventArgs e)
+		{
+			if (environmentHelper.DirectoryExists(form.OutputDirectoryPath))
+			{
+				DialogResult dialogResult = messageHelper.Show("Directory already exists. Would you like to overwrite it?",
+					"Папка уже существует. Вы хотите перезаписать ее?", MessageBoxButtons.YesNo);
 				if (dialogResult == DialogResult.No)
 					return;
 			}
-			try {
+
+			try
+			{
 				privateKey = keySerializer.DeserializePrivateKey(form.PrivateKey);
-			} catch (KeySerializationException) {
+			}
+			catch (KeySerializationException)
+			{
 				messageHelper.Show("Private key has errors.", "Секретный ключ содержит ошибки.");
 				return;
 			}
+
 			rsaFileDecipher = rsaFactory.CreateRsaFileDecipher(form.InputFileName);
 			rsaFileDecipher.BlockCompleted += decipher_BlockCompleted;
 			form.DecipherEnabled = false;
@@ -89,44 +105,58 @@ namespace CryptoFile.Client.Presenters {
 			thread.Start();
 		}
 
-		private void StartDecipher() {
+		private void StartDecipher()
+		{
 			var manager = new DecipherManager(environmentHelper, rsaFileDecipher, messageHelper, fileUnifier);
 			manager.Decipher(privateKey, form.InputFileName, form.OutputDirectoryPath);
-			if (rsaFileDecipher.Status == ProcessStatus.Complete) {
-				if (form.CloseWindowAfterComlete) {
+			if (rsaFileDecipher.Status == ProcessStatus.Complete)
+			{
+				if (form.CloseWindowAfterComlete)
+				{
 					form.DialogResult = DialogResult.Cancel;
 				}
 			}
+
 			commandsContainer.RefreshDirectoryCommand.Execute();
 			form.ProgressPercent = 0;
 			form.DecipherEnabled = true;
 		}
 
-		private void form_OutputFileNameChanged(object sender, EventArgs e) {
+		private void form_OutputFileNameChanged(object sender, EventArgs e)
+		{
 			UpdateForm();
 		}
 
-		private void form_PrivateKeyChanged(object sender, EventArgs e) {
+		private void form_PrivateKeyChanged(object sender, EventArgs e)
+		{
 			UpdateForm();
 		}
 
-		private void UpdateForm() {
-			if (string.IsNullOrEmpty(form.InputFileName)) {
+		private void UpdateForm()
+		{
+			if (string.IsNullOrEmpty(form.InputFileName))
+			{
 				form.DecipherEnabled = false;
 				return;
 			}
-			if (string.IsNullOrEmpty(form.InputFileName)) {
+
+			if (string.IsNullOrEmpty(form.InputFileName))
+			{
 				form.DecipherEnabled = false;
 				return;
 			}
-			if (string.IsNullOrEmpty(form.PrivateKey)) {
+
+			if (string.IsNullOrEmpty(form.PrivateKey))
+			{
 				form.DecipherEnabled = false;
 				return;
 			}
+
 			form.DecipherEnabled = true;
 		}
 
-		private void RefreshThread() {
+		private void RefreshThread()
+		{
 			thread = new Thread(StartDecipher);
 		}
 	}

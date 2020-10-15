@@ -6,16 +6,19 @@ using CryptoFile.Library.LongArithmetic;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Crypto {
+namespace CryptoFile.Client.Tests.Crypto
+{
 	[TestFixture]
-	public class RsaFileCipherZipDecorator_Test {
+	public class RsaFileCipherZipDecorator_Test
+	{
 		private RsaFileCipherZipDecorator decorator;
 		private Mock<IRsaFileCipher> rsaFileCipher;
 		private Mock<IEnvironmentHelper> environmentHelper;
 		private Mock<IZipAlgorithm> zipAlgorithm;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			rsaFileCipher = new Mock<IRsaFileCipher>();
 			environmentHelper = new Mock<IEnvironmentHelper>();
 			zipAlgorithm = new Mock<IZipAlgorithm>();
@@ -23,11 +26,12 @@ namespace CryptoFile.Client.Tests.Crypto {
 		}
 
 		[Test]
-		public void CipherTest() {
+		public void CipherTest()
+		{
 			const string temporaryFileName = "hello.bin";
 			environmentHelper.Setup(x => x.GetTempFileName()).Returns(temporaryFileName);
-			var e = BigNumber.FromInt(3);
-			var n = BigNumber.FromInt(36);
+			BigNumber e = BigNumber.FromInt(3);
+			BigNumber n = BigNumber.FromInt(36);
 			var publicKey = new PublicKey(e, n);
 			const string sourceFileName = "source.txt";
 			const string destinationFileName = "dest.dat";

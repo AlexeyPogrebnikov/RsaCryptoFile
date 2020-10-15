@@ -1,7 +1,9 @@
 using CryptoFile.IO.Entities;
 
-namespace CryptoFile.Client.Presenters {
-	public interface IFilesViewPresenter {
+namespace CryptoFile.Client.Presenters
+{
+	public interface IFilesViewPresenter
+	{
 		/// <exception cref="FileEntityNotFoundException">Ошибка при перемещении вверх</exception>
 		void ToUpperFolder();
 

@@ -7,16 +7,19 @@ using CryptoFile.Client.Presenters;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Presenters {
+namespace CryptoFile.Client.Tests.Presenters
+{
 	[TestFixture]
-	public class MainMenuPresenter_Test {
+	public class MainMenuPresenter_Test
+	{
 		private Mock<IMainMenuView> mainMenuView;
 		private Mock<ICommandsContainer> commandsContainer;
 		private Options options;
 		private Mock<IFormFactory> formFactory;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			mainMenuView = new Mock<IMainMenuView>();
 			options = new Options();
 			commandsContainer = new Mock<ICommandsContainer>();
@@ -25,7 +28,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void LanguageChanged_LanguageIsRussian() {
+		public void LanguageChanged_LanguageIsRussian()
+		{
 			var changeLanguageCommand = new Mock<ICommand>();
 			commandsContainer.Setup(x => x.ChangeLanguageCommand).Returns(changeLanguageCommand.Object);
 			mainMenuView.SetupProperty(x => x.Language, Language.Russian);
@@ -36,7 +40,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void LanguageChanged_LanguageIsEnglish() {
+		public void LanguageChanged_LanguageIsEnglish()
+		{
 			options.Language = Language.Russian;
 			var changeLanguageCommand = new Mock<ICommand>();
 			commandsContainer.Setup(x => x.ChangeLanguageCommand).Returns(changeLanguageCommand.Object);
@@ -48,7 +53,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void PropertiesTest() {
+		public void PropertiesTest()
+		{
 			options.RsaFileColor = new ColorXml();
 			var propertiesForm = new Mock<IPropertiesForm>();
 			formFactory.Setup(x => x.CreatePropertiesForm()).Returns(propertiesForm.Object);

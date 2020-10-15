@@ -7,9 +7,11 @@ using CryptoFile.Client.Presenters;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Presenters {
+namespace CryptoFile.Client.Tests.Presenters
+{
 	[TestFixture]
-	public class MainFormPresenter_Test {
+	public class MainFormPresenter_Test
+	{
 		private Mock<IMainForm> mainForm;
 		private Options options;
 		private Mock<IEnvironmentHelper> environmentHelper;
@@ -18,7 +20,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		private Mock<IFormFactory> formFactory;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			mainForm = new Mock<IMainForm>();
 			var mainMenuView = new Mock<IMainMenuView>();
 			mainForm.Setup(x => x.MainMenu).Returns(mainMenuView.Object);
@@ -38,7 +41,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckChangeLanguage() {
+		public void Constructor_CheckChangeLanguage()
+		{
 			var command = new Mock<ICommand>();
 			commandsContainer.Setup(x => x.ChangeLanguageCommand).Returns(command.Object);
 
@@ -47,9 +51,10 @@ namespace CryptoFile.Client.Tests.Presenters {
 			command.Verify(x => x.Execute());
 		}
 
-		private void CreatePresenter() {
+		private void CreatePresenter()
+		{
 			new MainFormPresenter(mainForm.Object, options, environmentHelper.Object, commandsContainer.Object,
-			                      messageHelper.Object, formFactory.Object);
+				messageHelper.Object, formFactory.Object);
 		}
 	}
 }

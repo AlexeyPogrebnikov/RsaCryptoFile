@@ -6,15 +6,18 @@ using CryptoFile.IO.Entities.Wrappers;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Commands {
+namespace CryptoFile.Client.Tests.Commands
+{
 	[TestFixture]
-	public class RefreshCryptoViewsCommand_Test {
+	public class RefreshCryptoViewsCommand_Test
+	{
 		private RefreshCryptoViewsCommand command;
 		private Mock<IFilesView> filesView;
 		private Mock<ICryptoView> cryptoView;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			filesView = new Mock<IFilesView>();
 			cryptoView = new Mock<ICryptoView>();
 			cryptoView.SetupProperty(x => x.CipherEnabled, false);
@@ -23,7 +26,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void Execute_SelectedEntitiesHasOneFile() {
+		public void Execute_SelectedEntitiesHasOneFile()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".txt");
@@ -39,7 +43,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void Execute_SelectedEntitiesHasOneRsaFile() {
+		public void Execute_SelectedEntitiesHasOneRsaFile()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".rsa");
@@ -55,7 +60,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void Execute_SelectedEntitiesHasTwoRsaFiles() {
+		public void Execute_SelectedEntitiesHasTwoRsaFiles()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".rsa");
@@ -71,7 +77,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void Execute_SelectedEntitiesIsEmpty() {
+		public void Execute_SelectedEntitiesIsEmpty()
+		{
 			var fileSystemEntities = new ReadOnlyCollection<FileSystemEntity>(new FileSystemEntity[0]);
 			filesView.Setup(x => x.SelectedEntities).Returns(fileSystemEntities);
 

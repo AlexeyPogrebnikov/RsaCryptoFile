@@ -5,8 +5,10 @@ using System.Drawing;
 using CryptoFile.IO.Entities;
 using CryptoFile.IO.Sorting;
 
-namespace CryptoFile.Client.Controls {
-	public interface IFilesView : ICryptoView {
+namespace CryptoFile.Client.Controls
+{
+	public interface IFilesView : ICryptoView
+	{
 		event EventHandler SortByName;
 		event EventHandler SortByLength;
 		event EventHandler SortByType;

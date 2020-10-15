@@ -2,24 +2,29 @@ using System.IO;
 using CryptoFile.IO.Entities.Wrappers;
 using NUnit.Framework;
 
-namespace CryptoFile.IO.Tests.Entities.Wrappers {
+namespace CryptoFile.IO.Tests.Entities.Wrappers
+{
 	[TestFixture]
-	public class DirectoryInfoWrapper_Test {
+	public class DirectoryInfoWrapper_Test
+	{
 		private DirectoryInfoWrapper wrapper;
 		private const string testFolder = "test";
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			Directory.CreateDirectory(testFolder);
 		}
 
 		[TearDown]
-		public void TearDown() {
+		public void TearDown()
+		{
 			Directory.Delete(testFolder, true);
 		}
 
 		[Test]
-		public void Length_TestWithFile() {
+		public void Length_TestWithFile()
+		{
 			File.WriteAllBytes(testFolder + "\\first.txt", new byte[] { 1, 2, 3 });
 			wrapper = new DirectoryInfoWrapper(testFolder);
 
@@ -27,7 +32,8 @@ namespace CryptoFile.IO.Tests.Entities.Wrappers {
 		}
 
 		[Test]
-		public void Length_TestWithInnerFolder() {
+		public void Length_TestWithInnerFolder()
+		{
 			File.WriteAllBytes(testFolder + "\\first.txt", new byte[] { 1, 2, 3 });
 			const string innerFolder = testFolder + "\\inner";
 			Directory.CreateDirectory(innerFolder);

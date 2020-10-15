@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 
-namespace CryptoFile.IO.Entities {
-	public interface IDirectoryEntity {
+namespace CryptoFile.IO.Entities
+{
+	public interface IDirectoryEntity
+	{
 		List<FileSystemEntity> GetFiles();
 		List<FileSystemEntity> GetDirectories();
 		IDirectoryEntity GetParentDirectory();

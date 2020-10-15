@@ -1,5 +1,7 @@
-﻿namespace CryptoFile.Client.Commands {
-	public interface ICommand {
+﻿namespace CryptoFile.Client.Commands
+{
+	public interface ICommand
+	{
 		void Execute();
 	}
 }

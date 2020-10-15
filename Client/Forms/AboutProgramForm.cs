@@ -2,31 +2,40 @@
 using System.Windows.Forms;
 using CryptoFile.Client.Configuration;
 
-namespace CryptoFile.Client.Forms {
-	public partial class AboutProgramForm : Form, IAboutProgramForm {
+namespace CryptoFile.Client.Forms
+{
+	public partial class AboutProgramForm : Form, IAboutProgramForm
+	{
 		private Language language;
 
-		public AboutProgramForm() {
+		public AboutProgramForm()
+		{
 			InitializeComponent();
 		}
 
-		public string Email {
-			get { return emailLinkLabel.Text; }
-			set { emailLinkLabel.Text = value; }
+		public string Email
+		{
+			get => emailLinkLabel.Text;
+			set => emailLinkLabel.Text = value;
 		}
 
 		public event EventHandler EmailClick;
 
-		public Language Language {
-			get { return language; }
-			set {
+		public Language Language
+		{
+			get => language;
+			set
+			{
 				language = value;
-				if (language == Language.English) {
+				if (language == Language.English)
+				{
 					Text = @"About";
 					versionLabel.Text = @"Version: 1.2";
 					authorLabel.Text = @"Author: Alexey Pogrebnikov";
 				}
-				if (language == Language.Russian) {
+
+				if (language == Language.Russian)
+				{
 					Text = @"О программе";
 					versionLabel.Text = @"Версия: 1.2";
 					authorLabel.Text = @"Автор: Алексей Погребников";
@@ -34,7 +43,8 @@ namespace CryptoFile.Client.Forms {
 			}
 		}
 
-		private void emailLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+		private void emailLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
 			if (EmailClick != null)
 				EmailClick(this, e);
 		}

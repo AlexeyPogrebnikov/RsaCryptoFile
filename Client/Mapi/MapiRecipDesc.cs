@@ -1,20 +1,21 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace CryptoFile.Client.Mapi {
+namespace CryptoFile.Client.Mapi
+{
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-	class MapiRecipDesc {
-		internal MapiRecipDesc(string name, RecipClass recipClass) {
+	internal class MapiRecipDesc
+	{
+		internal MapiRecipDesc(string name, RecipClass recipClass)
+		{
 			this.name = name;
-			this.recipClass = (int)recipClass;
+			this.recipClass = (int) recipClass;
 
-			unmanagedAddress = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MapiRecipDesc)));
-			Marshal.StructureToPtr(this, unmanagedAddress, false);
+			UnmanagedAddress = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MapiRecipDesc)));
+			Marshal.StructureToPtr(this, UnmanagedAddress, false);
 		}
 
-		internal IntPtr UnmanagedAddress {
-			get { return unmanagedAddress; }
-		}
+		internal IntPtr UnmanagedAddress { get; }
 
 		internal int reserved;
 		internal int recipClass;
@@ -23,10 +24,9 @@ namespace CryptoFile.Client.Mapi {
 		internal int eIDSize;
 		internal IntPtr entryID;
 
-		private readonly IntPtr unmanagedAddress;
-
-		~MapiRecipDesc() {
-			Marshal.FreeHGlobal(unmanagedAddress);
+		~MapiRecipDesc()
+		{
+			Marshal.FreeHGlobal(UnmanagedAddress);
 		}
 	}
 }

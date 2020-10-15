@@ -6,16 +6,19 @@ using CryptoFile.Library.LongArithmetic;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Crypto {
+namespace CryptoFile.Client.Tests.Crypto
+{
 	[TestFixture]
-	public class RsaFileDecipherZipDecorator_Test {
+	public class RsaFileDecipherZipDecorator_Test
+	{
 		private RsaFileDecipherZipDecorator decorator;
 		private Mock<IRsaFileDecipher> rsaFileDecipher;
 		private Mock<IEnvironmentHelper> environmentHelper;
 		private Mock<IZipAlgorithm> zipAlgorithm;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			rsaFileDecipher = new Mock<IRsaFileDecipher>();
 			environmentHelper = new Mock<IEnvironmentHelper>();
 			zipAlgorithm = new Mock<IZipAlgorithm>();
@@ -23,9 +26,10 @@ namespace CryptoFile.Client.Tests.Crypto {
 		}
 
 		[Test]
-		public void DecipherTest() {
-			var e = BigNumber.FromInt(3);
-			var n = BigNumber.FromInt(5);
+		public void DecipherTest()
+		{
+			BigNumber e = BigNumber.FromInt(3);
+			BigNumber n = BigNumber.FromInt(5);
 			var privateKey = new PrivateKey(e, n);
 
 			const string sourceFileName = "source.rsa";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using CryptoFile.Client.Configuration;
 using CryptoFile.Client.Controls;
 using CryptoFile.Client.Crypto;
@@ -6,11 +7,14 @@ using CryptoFile.Client.Environment;
 using CryptoFile.Client.Forms;
 using CryptoFile.Client.Presenters;
 using CryptoFile.Client.Serialization;
+using CryptoFile.IO.Entities;
 using CryptoFile.IO.Unification;
 using CryptoFile.Library;
 
-namespace CryptoFile.Client.Commands {
-	class CipherCommand : ICommand {
+namespace CryptoFile.Client.Commands
+{
+	internal class CipherCommand : ICommand
+	{
 		private readonly ICommandsContainer commandsContainer;
 		private readonly IFilesView filesView;
 		private readonly IFormFactory formFactory;
@@ -22,13 +26,14 @@ namespace CryptoFile.Client.Commands {
 
 		/// <exception cref="ArgumentNullException">commandsContainer is null</exception>
 		public CipherCommand(ICommandsContainer commandsContainer,
-		                     IFilesView filesView,
-		                     IFormFactory formFactory,
-		                     IFileUnifier fileUnifier,
-		                     IEnvironmentHelper environmentHelper,
-		                     Options options,
-		                     IRsaFactory rsaFactory,
-		                     IMessageHelper messageHelper) {
+			IFilesView filesView,
+			IFormFactory formFactory,
+			IFileUnifier fileUnifier,
+			IEnvironmentHelper environmentHelper,
+			Options options,
+			IRsaFactory rsaFactory,
+			IMessageHelper messageHelper)
+		{
 			Checker.CheckNull(commandsContainer);
 			this.commandsContainer = commandsContainer;
 			this.filesView = filesView;
@@ -42,22 +47,26 @@ namespace CryptoFile.Client.Commands {
 
 		#region ICommand Members
 
-		public void Execute() {
-			var entities = filesView.SelectedEntities;
-			if (entities.Count == 0) {
+		public void Execute()
+		{
+			ReadOnlyCollection<FileSystemEntity> entities = filesView.SelectedEntities;
+			if (entities.Count == 0)
+			{
 				throw new InvalidOperationException("filesView.SelectedEntities.Count is empty");
 			}
+
 			var keySerializer = new KeySerializer(new BigNumberHexSerializer());
-			using (var form = formFactory.CreateCipherForm()) {
+			using (ICipherForm form = formFactory.CreateCipherForm())
+			{
 				var presenter = new CipherFormPresenter(form,
-				                                        entities,
-				                                        rsaFactory,
-				                                        keySerializer,
-				                                        commandsContainer,
-				                                        fileUnifier,
-				                                        environmentHelper,
-				                                        messageHelper,
-				                                        options);
+					entities,
+					rsaFactory,
+					keySerializer,
+					commandsContainer,
+					fileUnifier,
+					environmentHelper,
+					messageHelper,
+					options);
 				presenter.ShowDialog();
 			}
 		}

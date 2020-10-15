@@ -5,21 +5,25 @@ using CryptoFile.Client.Presenters;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Presenters {
+namespace CryptoFile.Client.Tests.Presenters
+{
 	[TestFixture]
-	public class AboutProgramFormPresenter_Test {
+	public class AboutProgramFormPresenter_Test
+	{
 		private Mock<IAboutProgramForm> aboutProgramForm;
 		private Mock<IEnvironmentHelper> environmentHelper;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			aboutProgramForm = new Mock<IAboutProgramForm>();
 			environmentHelper = new Mock<IEnvironmentHelper>();
 			new AboutProgramFormPresenter(aboutProgramForm.Object, environmentHelper.Object);
 		}
 
 		[Test]
-		public void EmailClickTest() {
+		public void EmailClickTest()
+		{
 			aboutProgramForm.Setup(x => x.Email).Returns("hello");
 
 			aboutProgramForm.Raise(x => x.EmailClick += null, EventArgs.Empty);

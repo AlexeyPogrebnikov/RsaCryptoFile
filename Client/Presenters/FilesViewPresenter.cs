@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CryptoFile.Client.Commands;
 using CryptoFile.Client.Configuration;
 using CryptoFile.Client.Controls;
@@ -8,8 +9,10 @@ using CryptoFile.IO.Entities.Wrappers;
 using CryptoFile.IO.Sorting;
 using CryptoFile.Library;
 
-namespace CryptoFile.Client.Presenters {
-	public class FilesViewPresenter : IFilesViewPresenter {
+namespace CryptoFile.Client.Presenters
+{
+	public class FilesViewPresenter : IFilesViewPresenter
+	{
 		private readonly IFilesView filesView;
 		private readonly IToolBarView toolBarView;
 		private readonly IAddressToolBar addressToolBar;
@@ -23,12 +26,13 @@ namespace CryptoFile.Client.Presenters {
 		/// <exception cref="ArgumentNullException">any argument is null</exception>
 		/// <exception cref="ArgumentException">defaultDirectory is empty</exception>
 		public FilesViewPresenter(IFilesView filesView,
-		                          IToolBarView toolBarView,
-		                          IAddressToolBar addressToolBar,
-		                          ICommandsContainer commandsContainer,
-		                          IEnvironmentHelper environmentHelper,
-		                          Options options,
-		                          IMessageHelper messageHelper) {
+			IToolBarView toolBarView,
+			IAddressToolBar addressToolBar,
+			ICommandsContainer commandsContainer,
+			IEnvironmentHelper environmentHelper,
+			Options options,
+			IMessageHelper messageHelper)
+		{
 			Checker.CheckNull(filesView, toolBarView, addressToolBar, commandsContainer, environmentHelper);
 			this.filesView = filesView;
 			this.toolBarView = toolBarView;
@@ -50,7 +54,8 @@ namespace CryptoFile.Client.Presenters {
 			addressToolBar.PathChanged += addressToolBar_PathChanged;
 		}
 
-		private void view_SortByName(object sender, EventArgs e) {
+		private void view_SortByName(object sender, EventArgs e)
+		{
 			if (!(sorter is FileSorterByName))
 				sorter = new FileSorterByName();
 			else
@@ -58,7 +63,8 @@ namespace CryptoFile.Client.Presenters {
 			RefreshDirectory();
 		}
 
-		private void ViewSortByLength(object sender, EventArgs e) {
+		private void ViewSortByLength(object sender, EventArgs e)
+		{
 			if (!(sorter is FileSorterByLength))
 				sorter = new FileSorterByLength();
 			else
@@ -66,7 +72,8 @@ namespace CryptoFile.Client.Presenters {
 			RefreshDirectory();
 		}
 
-		private void view_SortByType(object sender, EventArgs e) {
+		private void view_SortByType(object sender, EventArgs e)
+		{
 			if (!(sorter is FileSorterByType))
 				sorter = new FileSorterByType();
 			else
@@ -74,7 +81,8 @@ namespace CryptoFile.Client.Presenters {
 			RefreshDirectory();
 		}
 
-		private void ViewSortByModifiedDate(object sender, EventArgs e) {
+		private void ViewSortByModifiedDate(object sender, EventArgs e)
+		{
 			if (!(sorter is FileSorterByModifiedDate))
 				sorter = new FileSorterByModifiedDate();
 			else
@@ -82,18 +90,21 @@ namespace CryptoFile.Client.Presenters {
 			RefreshDirectory();
 		}
 
-		public void OpenDefaultDirectory() {
+		public void OpenDefaultDirectory()
+		{
 			directory = CreateDefaultDirectory();
 			RefreshDirectory();
 		}
 
-		public void ToUpperFolder() {
+		public void ToUpperFolder()
+		{
 			InitializeDirectory();
 			directory = directory.GetParentDirectory();
 			RefreshDirectory();
 		}
 
-		public void RefreshDirectory() {
+		public void RefreshDirectory()
+		{
 			InitializeDirectory();
 			options.InitialDirectory = directory.FullName;
 			filesView.RsaFileColor = options.RsaFileColor.Color;
@@ -101,36 +112,43 @@ namespace CryptoFile.Client.Presenters {
 			addressToolBar.Path = directory.FullName;
 			addressToolBar.PathChanged += addressToolBar_PathChanged;
 
-			var files = directory.GetFiles();
-			var directories = directory.GetDirectories();
+			List<FileSystemEntity> files = directory.GetFiles();
+			List<FileSystemEntity> directories = directory.GetDirectories();
 			files.AddRange(directories);
-			var sortingInfo = sorter.GetSortingInfo();
+			SortingInfo sortingInfo = sorter.GetSortingInfo();
 			options.InitialSortColumn = sortingInfo.SortColumn;
 			options.InitialSortDirection = sortingInfo.SortDirection;
 			filesView.SortingInfo = sortingInfo;
 			sorter.Sort(files);
 			filesView.SetFileSystemEntities(files);
 
-			var parent = directory.GetParentDirectory();
+			IDirectoryEntity parent = directory.GetParentDirectory();
 			filesView.IsTerminal = parent == null;
 			toolBarView.ToUpperDirectoryEnabled = parent != null;
 			filesView.ResizeColumns();
 		}
 
-		private void view_OpenDirectory(object sender, EventArgs e) {
-			if (filesView.SelectedDirectory != null) {
-				var oldDirectory = directory;
+		private void view_OpenDirectory(object sender, EventArgs e)
+		{
+			if (filesView.SelectedDirectory != null)
+			{
+				IDirectoryEntity oldDirectory = directory;
 				directory = filesView.SelectedDirectory;
-				try {
+				try
+				{
 					RefreshDirectory();
-				} catch (FileEntityNotFoundException) {
-					var englishMessage = string.Format("{0} not found.", directory.FullName);
-					var russianMessage = string.Format("{0} не найден.", directory.FullName);
+				}
+				catch (FileEntityNotFoundException)
+				{
+					string englishMessage = string.Format("{0} not found.", directory.FullName);
+					string russianMessage = string.Format("{0} не найден.", directory.FullName);
 					messageHelper.Show(englishMessage, russianMessage);
 					OpenDefaultDirectory();
-				} catch (Exception) {
-					var englishMessage = string.Format("Error when opening a folder {0}.", directory.FullName);
-					var russianMessage = string.Format("Ошибка при открытии папки {0}.", directory.FullName);
+				}
+				catch (Exception)
+				{
+					string englishMessage = string.Format("Error when opening a folder {0}.", directory.FullName);
+					string russianMessage = string.Format("Ошибка при открытии папки {0}.", directory.FullName);
 					messageHelper.Show(englishMessage, russianMessage);
 					directory = oldDirectory;
 					RefreshDirectory();
@@ -138,47 +156,60 @@ namespace CryptoFile.Client.Presenters {
 			}
 		}
 
-		private void view_Cipher(object sender, EventArgs e) {
+		private void view_Cipher(object sender, EventArgs e)
+		{
 			commandsContainer.CipherCommand.Execute();
 		}
 
-		private void view_Decipher(object sender, EventArgs e) {
+		private void view_Decipher(object sender, EventArgs e)
+		{
 			commandsContainer.DecipherCommand.Execute();
 		}
 
-		private void view_ToUpperDirectory(object sender, EventArgs e) {
+		private void view_ToUpperDirectory(object sender, EventArgs e)
+		{
 			ToUpperFolder();
 		}
 
-		private void view_SelectedEntityChanged(object sender, EventArgs e) {
+		private void view_SelectedEntityChanged(object sender, EventArgs e)
+		{
 			filesView.OpenDirectoryEnabled = false;
 			commandsContainer.RefreshCryptoViewsCommand.Execute();
-			if (filesView.SelectedDirectory != null) {
+			if (filesView.SelectedDirectory != null)
+			{
 				filesView.OpenDirectoryEnabled = true;
 			}
 		}
 
-		private void addressToolBar_PathChanged(object sender, EventArgs e) {
-			try {
-				var path = addressToolBar.Path;
+		private void addressToolBar_PathChanged(object sender, EventArgs e)
+		{
+			try
+			{
+				string path = addressToolBar.Path;
 				var info = new DirectoryInfoWrapper(path);
 				directory = new DirectoryEntity(info);
-			} catch (FileEntityNotFoundException ex) {
+			}
+			catch (FileEntityNotFoundException ex)
+			{
 				messageHelper.Show(ex.Message, ex.Message);
 			}
+
 			RefreshDirectory();
 		}
 
-		private IDirectoryEntity CreateDefaultDirectory() {
-			var defaultDirectory = environmentHelper.GetMyDocumentsPath();
+		private IDirectoryEntity CreateDefaultDirectory()
+		{
+			string defaultDirectory = environmentHelper.GetMyDocumentsPath();
 			return new DirectoryEntity(defaultDirectory);
 		}
 
-		private void InitializeDirectory() {
-			if (directory == null) {
+		private void InitializeDirectory()
+		{
+			if (directory == null)
+			{
 				directory = string.IsNullOrEmpty(options.InitialDirectory)
-				            	? CreateDefaultDirectory()
-				            	: new DirectoryEntity(options.InitialDirectory);
+					? CreateDefaultDirectory()
+					: new DirectoryEntity(options.InitialDirectory);
 			}
 		}
 	}

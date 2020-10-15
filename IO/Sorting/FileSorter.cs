@@ -3,27 +3,35 @@ using System.ComponentModel;
 using CryptoFile.IO.Entities;
 using CryptoFile.IO.Sorting.Comparers;
 
-namespace CryptoFile.IO.Sorting {
-	public abstract class FileSorter {
+namespace CryptoFile.IO.Sorting
+{
+	public abstract class FileSorter
+	{
 		private SortDirection direction = SortDirection.Ascending;
 
-		protected FileSorter() {}
+		protected FileSorter()
+		{
+		}
 
-		protected FileSorter(SortDirection direction) {
+		protected FileSorter(SortDirection direction)
+		{
 			this.direction = direction;
 		}
 
-		public void Sort(List<FileSystemEntity> entities) {
-			var comparer = CreateComparer(direction);
+		public void Sort(List<FileSystemEntity> entities)
+		{
+			FileSystemEntityComparer comparer = CreateComparer(direction);
 			entities.Sort(comparer);
 		}
 
-		public void ChangeDirection() {
+		public void ChangeDirection()
+		{
 			direction = direction == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending;
 		}
 
-		public SortingInfo GetSortingInfo() {
-			var sortingColumn = GetSortColumn();
+		public SortingInfo GetSortingInfo()
+		{
+			SortColumn sortingColumn = GetSortColumn();
 			return new SortingInfo(sortingColumn, direction);
 		}
 
@@ -31,17 +39,20 @@ namespace CryptoFile.IO.Sorting {
 
 		protected abstract FileSystemEntityComparer CreateComparer(SortDirection direction);
 
-		public static FileSorter CreateSorter(SortColumn sortColumn, SortDirection direction) {
-			switch (sortColumn) {
-				case SortColumn.Name :
+		public static FileSorter CreateSorter(SortColumn sortColumn, SortDirection direction)
+		{
+			switch (sortColumn)
+			{
+				case SortColumn.Name:
 					return new FileSorterByName(direction);
-				case SortColumn.Length :
+				case SortColumn.Length:
 					return new FileSorterByLength(direction);
-				case SortColumn.Type :
+				case SortColumn.Type:
 					return new FileSorterByType(direction);
-				case SortColumn.ModifiedDate :
+				case SortColumn.ModifiedDate:
 					return new FileSorterByModifiedDate(direction);
 			}
+
 			throw new InvalidEnumArgumentException();
 		}
 	}

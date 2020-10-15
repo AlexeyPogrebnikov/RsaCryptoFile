@@ -1,6 +1,9 @@
-﻿namespace CryptoFile.Library.Keys {
-	public class RsaKey {
-		public RsaKey(PublicKey publicKey, PrivateKey privateKey) {
+﻿namespace CryptoFile.Library.Keys
+{
+	public class RsaKey
+	{
+		public RsaKey(PublicKey publicKey, PrivateKey privateKey)
+		{
 			PublicKey = publicKey;
 			PrivateKey = privateKey;
 		}

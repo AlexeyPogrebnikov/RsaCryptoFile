@@ -1,8 +1,11 @@
 ﻿using CryptoFile.Library.LongArithmetic;
 
-namespace CryptoFile.Library.Keys {
-	public class PublicKey {
-		public PublicKey(BigNumber e, BigNumber n) {
+namespace CryptoFile.Library.Keys
+{
+	public class PublicKey
+	{
+		public PublicKey(BigNumber e, BigNumber n)
+		{
 			N = n;
 			E = e;
 		}

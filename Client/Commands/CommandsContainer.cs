@@ -10,17 +10,20 @@ using CryptoFile.IO.Unification;
 using CryptoFile.Library.Keys;
 using CryptoFile.Library.Prime;
 
-namespace CryptoFile.Client.Commands {
-	class CommandsContainer : ICommandsContainer {
+namespace CryptoFile.Client.Commands
+{
+	internal class CommandsContainer : ICommandsContainer
+	{
 		private readonly ToUpperFolderCommand toUpperFolderCommand;
 		private readonly RefreshDirectoryCommand refreshDirectoryCommand;
 		private readonly ChangeLanguageCommand changeLanguageCommand;
 
 		public CommandsContainer(Options options,
-		                         IMainForm mainForm,
-		                         IEnvironmentHelper environmentHelper,
-		                         IMessageHelper messageHelper,
-		                         IFormFactory formFactory) {
+			IMainForm mainForm,
+			IEnvironmentHelper environmentHelper,
+			IMessageHelper messageHelper,
+			IFormFactory formFactory)
+		{
 			var primeTest = new RabinMillerTest(20);
 			var primeGenerator = new PrimeGenerator(primeTest);
 			var keyGenerator = new KeyGenerator(new RsaKeyGenerator(), primeGenerator);
@@ -29,11 +32,11 @@ namespace CryptoFile.Client.Commands {
 			IRsaFactory rsaFactory = new RsaFactory(new FileFactory(0), options, environmentHelper, zipAlgorithm);
 			AboutProgramCommand = new AboutProgramCommand(formFactory, environmentHelper);
 			CipherCommand = new CipherCommand(this, mainForm.FilesView, formFactory, fileUnifier, environmentHelper, options,
-			                                  rsaFactory,
-			                                  messageHelper);
+				rsaFactory,
+				messageHelper);
 			DecipherCommand = new DecipherCommand(this, mainForm.FilesView, rsaFactory, environmentHelper, formFactory,
-			                                      messageHelper,
-			                                      fileUnifier);
+				messageHelper,
+				fileUnifier);
 			ExitCommand = new ExitCommand();
 			GenerateKeysCommand = new GenerateKeysCommand(keyGenerator, options, formFactory, messageHelper);
 			refreshDirectoryCommand = new RefreshDirectoryCommand(messageHelper);
@@ -50,24 +53,20 @@ namespace CryptoFile.Client.Commands {
 		public ICommand GenerateKeysCommand { get; private set; }
 		public ICommand RefreshCryptoViewsCommand { get; private set; }
 
-		public ICommand RefreshDirectoryCommand {
-			get { return refreshDirectoryCommand; }
-		}
+		public ICommand RefreshDirectoryCommand => refreshDirectoryCommand;
 
-		public ICommand ToUpperFolderCommand {
-			get { return toUpperFolderCommand; }
-		}
+		public ICommand ToUpperFolderCommand => toUpperFolderCommand;
 
-		public ICommand ChangeLanguageCommand {
-			get { return changeLanguageCommand; }
-		}
+		public ICommand ChangeLanguageCommand => changeLanguageCommand;
 
-		public void SetFilesViewPresenter(IFilesViewPresenter filesViewPresenter) {
+		public void SetFilesViewPresenter(IFilesViewPresenter filesViewPresenter)
+		{
 			toUpperFolderCommand.SetFilesViewPresenter(filesViewPresenter);
 			refreshDirectoryCommand.FilesViewPresenter = filesViewPresenter;
 		}
 
-		public void SetMainForm(IMainForm mainForm) {
+		public void SetMainForm(IMainForm mainForm)
+		{
 			changeLanguageCommand.SetMainForm(mainForm);
 		}
 	}

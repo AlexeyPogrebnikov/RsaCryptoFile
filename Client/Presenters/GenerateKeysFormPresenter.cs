@@ -5,10 +5,13 @@ using CryptoFile.Client.Configuration;
 using CryptoFile.Client.Crypto;
 using CryptoFile.Client.Forms;
 using CryptoFile.Client.Serialization;
+using CryptoFile.Library.Keys;
 using CryptoFile.Library.LongArithmetic;
 
-namespace CryptoFile.Client.Presenters {
-	class GenerateKeysFormPresenter {
+namespace CryptoFile.Client.Presenters
+{
+	internal class GenerateKeysFormPresenter
+	{
 		private readonly IGenerateKeysForm generateKeysForm;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly Options options;
@@ -17,10 +20,11 @@ namespace CryptoFile.Client.Presenters {
 		private Thread thread;
 
 		public GenerateKeysFormPresenter(IGenerateKeysForm generateKeysForm,
-		                                 IKeyGenerator keyGenerator,
-		                                 Options options,
-		                                 IMessageHelper messageHelper,
-		                                 IFormFactory formFactory) {
+			IKeyGenerator keyGenerator,
+			Options options,
+			IMessageHelper messageHelper,
+			IFormFactory formFactory)
+		{
 			this.generateKeysForm = generateKeysForm;
 			this.keyGenerator = keyGenerator;
 			this.options = options;
@@ -35,52 +39,65 @@ namespace CryptoFile.Client.Presenters {
 			generateKeysForm.CancelGenerateKeys += generateKeysForm_CancelGenerateKeys;
 		}
 
-		private void generateKeysForm_Generate(object sender, EventArgs e) {
+		private void generateKeysForm_Generate(object sender, EventArgs e)
+		{
 			generateKeysForm.GenerateEnabled = false;
 			RefreshThread();
 			thread.Start();
 		}
 
-		private void generateKeysForm_ChangePublicExponent(object sender, EventArgs e) {
-			using (var form = formFactory.CreatePublicExponentForm()) {
+		private void generateKeysForm_ChangePublicExponent(object sender, EventArgs e)
+		{
+			using (IPublicExponentForm form = formFactory.CreatePublicExponentForm())
+			{
 				form.SetPublicExponents(new[] { 3, 17, 257, 65537 });
 				form.PublicExponent = options.PublicExponent;
-				if (form.ShowDialog() == DialogResult.OK) {
+				if (form.ShowDialog() == DialogResult.OK)
+				{
 					options.PublicExponent = form.PublicExponent;
 					RefreshPublicExponent();
 				}
 			}
 		}
 
-		private void generateKeysForm_CancelGenerateKeys(object sender, EventArgs e) {
-			if (keyGenerator.Status == ProcessStatus.Processing) {
+		private void generateKeysForm_CancelGenerateKeys(object sender, EventArgs e)
+		{
+			if (keyGenerator.Status == ProcessStatus.Processing)
+			{
 				keyGenerator.Stop();
 				thread.Abort();
 				RefreshThread();
 				generateKeysForm.GenerateEnabled = true;
-			} else {
+			}
+			else
+			{
 				generateKeysForm.DialogResult = DialogResult.Cancel;
 			}
 		}
 
-		private void StartGenerateKeys() {
+		private void StartGenerateKeys()
+		{
 			options.RsaKeyLength = generateKeysForm.RsaKeyLength;
-			var key = keyGenerator.Generate(options.RsaKeyLength, BigNumber.FromInt(options.PublicExponent));
+			RsaKey key = keyGenerator.Generate(options.RsaKeyLength, BigNumber.FromInt(options.PublicExponent));
 			generateKeysForm.GenerateEnabled = true;
-			if (key == null) {
+			if (key == null)
+			{
 				messageHelper.Show("Unable to generate a key.", "Не удалось сгенерировать ключ.");
 				return;
 			}
+
 			var serializer = new KeySerializer(new BigNumberHexSerializer());
 			generateKeysForm.PublicKey = serializer.SerializePublicKey(key.PublicKey);
 			generateKeysForm.PrivateKey = serializer.SerializePrivateKey(key.PrivateKey);
 		}
 
-		private void RefreshThread() {
+		private void RefreshThread()
+		{
 			thread = new Thread(StartGenerateKeys);
 		}
 
-		private void RefreshPublicExponent() {
+		private void RefreshPublicExponent()
+		{
 			generateKeysForm.PublicExponent = options.PublicExponent;
 		}
 	}

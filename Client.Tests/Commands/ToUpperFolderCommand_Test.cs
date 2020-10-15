@@ -4,22 +4,26 @@ using CryptoFile.IO.Entities;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Commands {
+namespace CryptoFile.Client.Tests.Commands
+{
 	[TestFixture]
-	public class ToUpperFolderCommand_Test {
+	public class ToUpperFolderCommand_Test
+	{
 		private ToUpperFolderCommand command;
 		private Mock<IFilesViewPresenter> filesViewPresenter;
 		private Mock<IMessageHelper> messageHelper;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			filesViewPresenter = new Mock<IFilesViewPresenter>();
 			messageHelper = new Mock<IMessageHelper>();
 			command = new ToUpperFolderCommand(messageHelper.Object);
 		}
 
 		[Test]
-		public void Execute_ErrorToUpperFolder_CheckMessage() {
+		public void Execute_ErrorToUpperFolder_CheckMessage()
+		{
 			filesViewPresenter.Setup(x => x.ToUpperFolder()).Throws(new FileEntityNotFoundException("hello"));
 			command.SetFilesViewPresenter(filesViewPresenter.Object);
 			command.Execute();

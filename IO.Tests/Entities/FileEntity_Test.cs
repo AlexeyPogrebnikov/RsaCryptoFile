@@ -5,30 +5,36 @@ using CryptoFile.IO.Entities.Wrappers;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.IO.Tests.Entities {
+namespace CryptoFile.IO.Tests.Entities
+{
 	[TestFixture]
-	public class FileEntity_Test {
+	public class FileEntity_Test
+	{
 		private const string testFolder = "testFolder";
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			Directory.CreateDirectory(testFolder);
 		}
 
 		[TearDown]
-		public void TearDown() {
+		public void TearDown()
+		{
 			Directory.Delete(testFolder, true);
 		}
 
 		#region Constructor
 
 		[Test]
-		public void Constructor_InfoIsNull() {
+		public void Constructor_InfoIsNull()
+		{
 			Assert.Throws(typeof(ArgumentNullException), () => new FileEntity(null));
 		}
 
 		[Test]
-		public void Constructor_FileDoesntExist() {
+		public void Constructor_FileDoesntExist()
+		{
 			var fileInfo = new FileInfo("hello");
 			var directoryInfo = new Mock<IDirectoryInfo>();
 			var info = new FileInfoWrapper(fileInfo, directoryInfo.Object);
@@ -36,11 +42,12 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void Constructor_FileIsEmpty() {
+		public void Constructor_FileIsEmpty()
+		{
 			const string fileName = testFolder + "\\file.emp";
 			File.WriteAllText(fileName, null);
 			File.SetLastWriteTime(fileName, new DateTime(2009, 2, 20));
-			var fileInfoWrapper = CreateFileInfoWrapper(fileName);
+			FileInfoWrapper fileInfoWrapper = CreateFileInfoWrapper(fileName);
 			var entity = new FileEntity(fileInfoWrapper);
 			Assert.IsFalse(entity.IsCryptoFile);
 			Assert.AreEqual(0, entity.Length);
@@ -49,10 +56,11 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void Constructor_FileIsNotEmpty() {
+		public void Constructor_FileIsNotEmpty()
+		{
 			const string fileName = testFolder + "\\file.bmp";
 			File.WriteAllBytes(fileName, new byte[] { 1, 2, 3 });
-			var fileInfoWrapper = CreateFileInfoWrapper(fileName);
+			FileInfoWrapper fileInfoWrapper = CreateFileInfoWrapper(fileName);
 			var entity = new FileEntity(fileInfoWrapper);
 			Assert.IsFalse(entity.IsCryptoFile);
 			Assert.AreEqual(3, entity.Length);
@@ -60,10 +68,11 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void Constructor_FileIsRsa() {
+		public void Constructor_FileIsRsa()
+		{
 			const string fileName = testFolder + "\\file.rsa";
 			File.WriteAllBytes(fileName, new byte[] { 1, 2, 3 });
-			var fileInfoWrapper = CreateFileInfoWrapper(fileName);
+			FileInfoWrapper fileInfoWrapper = CreateFileInfoWrapper(fileName);
 			var entity = new FileEntity(fileInfoWrapper);
 			Assert.IsTrue(entity.IsCryptoFile);
 			Assert.AreEqual(3, entity.Length);
@@ -71,7 +80,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void Constructor_CheckIsCryptoFile() {
+		public void Constructor_CheckIsCryptoFile()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".RsA");
@@ -83,18 +93,20 @@ namespace CryptoFile.IO.Tests.Entities {
 		#endregion
 
 		[Test]
-		public void GetDataTest() {
+		public void GetDataTest()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.GetData()).Returns(new byte[] { 4, 56, 168 });
 			var entity = new FileEntity(fileInfo.Object);
-			var data = entity.GetData();
+			byte[] data = entity.GetData();
 
 			TestHelper.CheckArray(new byte[] { 4, 56, 168 }, data);
 		}
 
 		[Test]
-		public void ExtensionTest() {
+		public void ExtensionTest()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".txt");
@@ -104,7 +116,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void GetFilesTest() {
+		public void GetFilesTest()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".txt");
@@ -114,7 +127,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void GetDirectoriesTest() {
+		public void GetDirectoriesTest()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".txt");
@@ -123,7 +137,8 @@ namespace CryptoFile.IO.Tests.Entities {
 			Assert.Throws(typeof(NotSupportedException), () => fileEntity.GetDirectories());
 		}
 
-		private static FileInfoWrapper CreateFileInfoWrapper(string fileName) {
+		private static FileInfoWrapper CreateFileInfoWrapper(string fileName)
+		{
 			var fileInfo = new FileInfo(fileName);
 			var directoryInfo = new Mock<IDirectoryInfo>();
 			return new FileInfoWrapper(fileInfo, directoryInfo.Object);

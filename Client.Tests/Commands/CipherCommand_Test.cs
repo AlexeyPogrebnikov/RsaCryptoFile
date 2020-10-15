@@ -13,9 +13,11 @@ using CryptoFile.IO.Unification;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Commands {
+namespace CryptoFile.Client.Tests.Commands
+{
 	[TestFixture]
-	public class CipherCommand_Test {
+	public class CipherCommand_Test
+	{
 		private CipherCommand cipherCommand;
 		private Mock<ICommandsContainer> commandsContainer;
 		private Mock<IFilesView> filesView;
@@ -25,7 +27,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		private Mock<IMessageHelper> messageHelper;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			var options = new Options();
 			filesView = new Mock<IFilesView>();
 			var fileUnifier = new Mock<IFileUnifier>();
@@ -35,23 +38,24 @@ namespace CryptoFile.Client.Tests.Commands {
 			formFactory = new Mock<IFormFactory>();
 			rsaFactory = new Mock<IRsaFactory>();
 			cipherCommand = new CipherCommand(commandsContainer.Object,
-			                                  filesView.Object,
-			                                  formFactory.Object,
-			                                  fileUnifier.Object,
-			                                  environmentHelper.Object,
-			                                  options,
-			                                  rsaFactory.Object,
-			                                  messageHelper.Object);
+				filesView.Object,
+				formFactory.Object,
+				fileUnifier.Object,
+				environmentHelper.Object,
+				options,
+				rsaFactory.Object,
+				messageHelper.Object);
 		}
 
 		[Test]
-		public void Execute_CheckSetInputFileEntities() {
+		public void Execute_CheckSetInputFileEntities()
+		{
 			var directoryInfo = new Mock<IDirectoryInfo>();
 			directoryInfo.Setup(x => x.Exists).Returns(true);
 			directoryInfo.Setup(x => x.FullName).Returns("c:\\documents");
 
-			var firstFileEntity = CreateFileEntity("c:\\first.txt", directoryInfo.Object);
-			var secondFileEntity = CreateFileEntity("c:\\second.txt", directoryInfo.Object);
+			FileEntity firstFileEntity = CreateFileEntity("c:\\first.txt", directoryInfo.Object);
+			FileEntity secondFileEntity = CreateFileEntity("c:\\second.txt", directoryInfo.Object);
 			var fileSystemEntities = new ReadOnlyCollection<FileSystemEntity>(new[] { firstFileEntity, secondFileEntity });
 			filesView.Setup(x => x.SelectedEntities).Returns(fileSystemEntities);
 			var cipherForm = new Mock<ICipherForm>();
@@ -66,14 +70,16 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void Execute_CheckErrorIfInputFileEntitiesIsEmpty() {
+		public void Execute_CheckErrorIfInputFileEntitiesIsEmpty()
+		{
 			var entities = new ReadOnlyCollection<FileSystemEntity>(new FileSystemEntity[0]);
 			filesView.Setup(x => x.SelectedEntities).Returns(entities);
 
 			Assert.Throws(typeof(InvalidOperationException), () => cipherCommand.Execute());
 		}
 
-		private static FileEntity CreateFileEntity(string fileName, IDirectoryInfo parentDirectory) {
+		private static FileEntity CreateFileEntity(string fileName, IDirectoryInfo parentDirectory)
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.FullName).Returns(fileName);

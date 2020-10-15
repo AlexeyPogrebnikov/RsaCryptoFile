@@ -15,9 +15,11 @@ using CryptoFile.IO.Sorting;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Presenters {
+namespace CryptoFile.Client.Tests.Presenters
+{
 	[TestFixture]
-	public class FilesViewPresenter_Tests {
+	public class FilesViewPresenter_Tests
+	{
 		private FilesViewPresenter filesViewPresenter;
 		private Mock<IFilesView> filesView;
 		private Mock<IToolBarView> toolBarView;
@@ -29,7 +31,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		private const string testFolder = "testFolder";
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			DeleteTestFolder();
 			Directory.CreateDirectory(testFolder);
 			filesView = new Mock<IFilesView>();
@@ -42,13 +45,15 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[TearDown]
-		public void TearDown() {
+		public void TearDown()
+		{
 			DeleteTestFolder();
 		}
 
 		[Test]
-		public void OpenDefaultDirectory_CheckRefreshOptionsInitialDirectory() {
-			var path = Path.Combine(testFolder, "documents");
+		public void OpenDefaultDirectory_CheckRefreshOptionsInitialDirectory()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
 			environmentHelper.Setup(x => x.GetMyDocumentsPath())
@@ -70,8 +75,9 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void RefreshDirectory_CheckRefreshOptionsInitialDirectory() {
-			var path = Path.Combine(testFolder, "documents");
+		public void RefreshDirectory_CheckRefreshOptionsInitialDirectory()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
 			environmentHelper.Setup(x => x.GetMyDocumentsPath())
@@ -93,8 +99,9 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void ToUpperFolder_CheckRefreshOptionsInitialDirectory() {
-			var path = Path.Combine(testFolder, "documents");
+		public void ToUpperFolder_CheckRefreshOptionsInitialDirectory()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
 			environmentHelper.Setup(x => x.GetMyDocumentsPath())
@@ -126,7 +133,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void RefreshDirectory_OptionsInitialDirectoryIsNotNull() {
+		public void RefreshDirectory_OptionsInitialDirectoryIsNotNull()
+		{
 			options.InitialDirectory = testFolder;
 
 			var directoryEntity = new Mock<IDirectoryEntity>();
@@ -145,8 +153,9 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void SortByLength_CheckInitialSortColumn() {
-			var path = Path.Combine(testFolder, "documents");
+		public void SortByLength_CheckInitialSortColumn()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
 			environmentHelper.Setup(x => x.GetMyDocumentsPath())
@@ -168,8 +177,9 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void DoubleSortByLength_CheckInitialSortDirection() {
-			var path = Path.Combine(testFolder, "documents");
+		public void DoubleSortByLength_CheckInitialSortDirection()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
 			environmentHelper.Setup(x => x.GetMyDocumentsPath())
@@ -192,8 +202,9 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void RefreshDirectory_CheckSortByLength() {
-			var path = Path.Combine(testFolder, "documents");
+		public void RefreshDirectory_CheckSortByLength()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
 			options.InitialSortColumn = SortColumn.Length;
@@ -202,10 +213,10 @@ namespace CryptoFile.Client.Tests.Presenters {
 			environmentHelper.Setup(x => x.GetMyDocumentsPath())
 				.Returns(path);
 
-			var firstFileName = Path.Combine(path, "first.txt");
+			string firstFileName = Path.Combine(path, "first.txt");
 			File.WriteAllBytes(firstFileName, new byte[50]);
 
-			var secondFileName = Path.Combine(path, "second.txt");
+			string secondFileName = Path.Combine(path, "second.txt");
 			File.WriteAllBytes(secondFileName, new byte[100]);
 
 			filesViewPresenter = CreateFilesViewPresenter();
@@ -214,18 +225,19 @@ namespace CryptoFile.Client.Tests.Presenters {
 
 			filesView.Verify(
 				x =>
-				x.SetFileSystemEntities(
-					It.Is<IEnumerable<FileSystemEntity>>(files =>
-					                                     files.ElementAt(0).Length == 100 &&
-					                                     files.ElementAt(1).Length == 50)));
+					x.SetFileSystemEntities(
+						It.Is<IEnumerable<FileSystemEntity>>(files =>
+							files.ElementAt(0).Length == 100 &&
+							files.ElementAt(1).Length == 50)));
 		}
 
 		[Test]
-		public void RefreshDirectory_CheckSetRsaFileColor() {
-			var path = Path.Combine(testFolder, "documents");
+		public void RefreshDirectory_CheckSetRsaFileColor()
+		{
+			string path = Path.Combine(testFolder, "documents");
 			Directory.CreateDirectory(path);
 
-			var color = Color.FromArgb(0, 0, 255);
+			Color color = Color.FromArgb(0, 0, 255);
 
 			options.RsaFileColor = new ColorXml(color);
 
@@ -250,7 +262,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void SelectedEntityChanged_CheckCipherEnabledIfSelectedEntitiesHasDirectory() {
+		public void SelectedEntityChanged_CheckCipherEnabledIfSelectedEntitiesHasDirectory()
+		{
 			filesView.SetupProperty(x => x.CipherEnabled, false);
 
 			var directoryInfo = new Mock<IDirectoryInfo>();
@@ -270,7 +283,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void SelectedEntityChanged_CheckCipherEnabledIfSelectedEntitiesHasRsaFile() {
+		public void SelectedEntityChanged_CheckCipherEnabledIfSelectedEntitiesHasRsaFile()
+		{
 			filesView.SetupProperty(x => x.CipherEnabled);
 
 			var fileInfo = new Mock<IFileInfo>();
@@ -291,7 +305,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void SelectedEntityChanged_CheckCipherEnabledIfSelectedEntitiesHasTwoRsaFiles() {
+		public void SelectedEntityChanged_CheckCipherEnabledIfSelectedEntitiesHasTwoRsaFiles()
+		{
 			filesView.SetupProperty(x => x.CipherEnabled);
 
 			var fileInfo = new Mock<IFileInfo>();
@@ -312,17 +327,19 @@ namespace CryptoFile.Client.Tests.Presenters {
 			Assert.IsTrue(filesView.Object.CipherEnabled);
 		}
 
-		private FilesViewPresenter CreateFilesViewPresenter() {
+		private FilesViewPresenter CreateFilesViewPresenter()
+		{
 			return new FilesViewPresenter(filesView.Object,
-			                              toolBarView.Object,
-			                              addressToolBar.Object,
-			                              commandsContainer.Object,
-			                              environmentHelper.Object,
-			                              options,
-			                              messageHelper.Object);
+				toolBarView.Object,
+				addressToolBar.Object,
+				commandsContainer.Object,
+				environmentHelper.Object,
+				options,
+				messageHelper.Object);
 		}
 
-		private static void DeleteTestFolder() {
+		private static void DeleteTestFolder()
+		{
 			if (Directory.Exists(testFolder))
 				Directory.Delete(testFolder, true);
 		}

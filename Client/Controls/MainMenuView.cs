@@ -2,9 +2,12 @@
 using System.Windows.Forms;
 using CryptoFile.Client.Configuration;
 
-namespace CryptoFile.Client.Controls {
-	partial class MainMenuView : UserControl, IMainMenuView {
-		public MainMenuView() {
+namespace CryptoFile.Client.Controls
+{
+	internal partial class MainMenuView : UserControl, IMainMenuView
+	{
+		public MainMenuView()
+		{
 			InitializeComponent();
 		}
 
@@ -22,9 +25,11 @@ namespace CryptoFile.Client.Controls {
 
 		public event EventHandler AboutProgram;
 
-		public Language Language {
-			get { return russianToolStripMenuItem.Checked ? Language.Russian : Language.English; }
-			set {
+		public Language Language
+		{
+			get => russianToolStripMenuItem.Checked ? Language.Russian : Language.English;
+			set
+			{
 				englishToolStripMenuItem.CheckedChanged -= englishToolStripMenuItem_CheckedChanged;
 				russianToolStripMenuItem.CheckedChanged -= russianToolStripMenuItem_CheckedChanged;
 
@@ -37,7 +42,8 @@ namespace CryptoFile.Client.Controls {
 
 				englishToolStripMenuItem.CheckedChanged += englishToolStripMenuItem_CheckedChanged;
 				russianToolStripMenuItem.CheckedChanged += russianToolStripMenuItem_CheckedChanged;
-				if (Language == Language.English) {
+				if (Language == Language.English)
+				{
 					fileToolStripMenuItem.Text = @"File";
 					cipherToolStripMenuItem.Text = @"Cipher";
 					decipherToolStripMenuItem.Text = @"Decipher";
@@ -49,7 +55,9 @@ namespace CryptoFile.Client.Controls {
 					helpToolStripMenuItem.Text = @"Help";
 					aboutProgramToolStripMenuItem.Text = @"About program";
 				}
-				if (Language == Language.Russian) {
+
+				if (Language == Language.Russian)
+				{
 					fileToolStripMenuItem.Text = @"Файл";
 					cipherToolStripMenuItem.Text = @"Шифровать";
 					decipherToolStripMenuItem.Text = @"Расшифровать";
@@ -64,72 +72,90 @@ namespace CryptoFile.Client.Controls {
 			}
 		}
 
-		public bool CipherEnabled {
-			get { return cipherToolStripMenuItem.Enabled; }
-			set { cipherToolStripMenuItem.Enabled = value; }
+		public bool CipherEnabled
+		{
+			get => cipherToolStripMenuItem.Enabled;
+			set => cipherToolStripMenuItem.Enabled = value;
 		}
 
-		public bool DecipherEnabled {
-			get { return decipherToolStripMenuItem.Enabled; }
-			set { decipherToolStripMenuItem.Enabled = value; }
+		public bool DecipherEnabled
+		{
+			get => decipherToolStripMenuItem.Enabled;
+			set => decipherToolStripMenuItem.Enabled = value;
 		}
 
 		#endregion
 
-		private void cipherToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (Cipher != null) {
+		private void cipherToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Cipher != null)
+			{
 				Cipher(this, e);
 			}
 		}
 
-		private void decipherToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (Decipher != null) {
+		private void decipherToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Decipher != null)
+			{
 				Decipher(this, e);
 			}
 		}
 
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (Exit != null) {
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (Exit != null)
+			{
 				Exit(this, e);
 			}
 		}
 
-		private void generateKeysToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (GenerateKeys != null) {
+		private void generateKeysToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (GenerateKeys != null)
+			{
 				GenerateKeys(this, e);
 			}
 		}
 
-		private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (AboutProgram != null) {
+		private void aboutProgramToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (AboutProgram != null)
+			{
 				AboutProgram(this, e);
 			}
 		}
 
-		private void russianToolStripMenuItem_CheckedChanged(object sender, EventArgs e) {
+		private void russianToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
 			OnLanguageChanged();
 		}
 
-		private void englishToolStripMenuItem_CheckedChanged(object sender, EventArgs e) {
+		private void englishToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
 			OnLanguageChanged();
 		}
 
-		private void OnLanguageChanged() {
+		private void OnLanguageChanged()
+		{
 			if (LanguageChanged != null)
 				LanguageChanged(this, EventArgs.Empty);
 		}
 
-		private void propertiesToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			if (Properties != null)
 				Properties(this, e);
 		}
 
-		private void russianToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void russianToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			russianToolStripMenuItem.Checked = !russianToolStripMenuItem.Checked;
 			englishToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
 		}
 
-		private void englishToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			englishToolStripMenuItem.Checked = !englishToolStripMenuItem.Checked;
 			russianToolStripMenuItem.Checked = !russianToolStripMenuItem.Checked;
 		}

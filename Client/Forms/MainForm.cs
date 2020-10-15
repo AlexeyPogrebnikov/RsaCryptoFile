@@ -2,37 +2,34 @@
 using CryptoFile.Client.Configuration;
 using CryptoFile.Client.Controls;
 
-namespace CryptoFile.Client.Forms {
-	partial class MainForm : Form, IMainForm {
+namespace CryptoFile.Client.Forms
+{
+	internal partial class MainForm : Form, IMainForm
+	{
 		private Language language;
 
-		public MainForm() {
+		public MainForm()
+		{
 			InitializeComponent();
 		}
 
 		#region IMainForm Members
 
-		public IMainMenuView MainMenu {
-			get { return mainMenuView; }
-		}
+		public IMainMenuView MainMenu => mainMenuView;
 
-		public IFilesView FilesView {
-			get { return filesView; }
-		}
+		public IFilesView FilesView => filesView;
 
-		public IToolBarView ToolBar {
-			get { return toolBarView; }
-		}
+		public IToolBarView ToolBar => toolBarView;
 
-		public IAddressToolBar AddressToolBar {
-			get { return addressToolBar; }
-		}
+		public IAddressToolBar AddressToolBar => addressToolBar;
 
 		#endregion
 
-		public Language Language {
-			get { return language; }
-			set {
+		public Language Language
+		{
+			get => language;
+			set
+			{
 				language = value;
 				MainMenu.Language = language;
 				ToolBar.Language = language;

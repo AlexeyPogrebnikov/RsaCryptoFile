@@ -1,7 +1,9 @@
 using CryptoFile.Client.Presenters;
 
-namespace CryptoFile.Client.Commands {
-	public interface ICommandsContainer {
+namespace CryptoFile.Client.Commands
+{
+	public interface ICommandsContainer
+	{
 		void SetFilesViewPresenter(IFilesViewPresenter filesViewPresenter);
 		ICommand RefreshDirectoryCommand { get; }
 		ICommand DecipherCommand { get; }

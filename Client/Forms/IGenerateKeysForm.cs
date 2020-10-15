@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace CryptoFile.Client.Forms {
-	public interface IGenerateKeysForm : IForm {
+namespace CryptoFile.Client.Forms
+{
+	public interface IGenerateKeysForm : IForm
+	{
 		event EventHandler Generate;
 		event EventHandler ChangePublicExponent;
 		event EventHandler CancelGenerateKeys;

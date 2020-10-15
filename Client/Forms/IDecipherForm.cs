@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace CryptoFile.Client.Forms {
-	public interface IDecipherForm : IForm {
+namespace CryptoFile.Client.Forms
+{
+	public interface IDecipherForm : IForm
+	{
 		event EventHandler Decipher;
 		event EventHandler CancelDecipher;
 		event EventHandler OutputFileNameChanged;

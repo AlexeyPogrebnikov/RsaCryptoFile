@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using CryptoFile.IO.Entities;
 
-namespace CryptoFile.Client.Forms {
-	public interface ICipherForm : IForm {
+namespace CryptoFile.Client.Forms
+{
+	public interface ICipherForm : IForm
+	{
 		event EventHandler Cipher;
 		event EventHandler CancelCipher;
 		event EventHandler OutputFileNameChanged;

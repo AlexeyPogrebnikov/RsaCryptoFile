@@ -9,9 +9,11 @@ using CryptoFile.IO.Exceptions;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Crypto {
+namespace CryptoFile.Client.Tests.Crypto
+{
 	[TestFixture]
-	public class RsaFactory_Test {
+	public class RsaFactory_Test
+	{
 		private RsaFactory rsaFactory;
 		private Mock<IFileFactory> fileFactory;
 		private Options options;
@@ -20,7 +22,8 @@ namespace CryptoFile.Client.Tests.Crypto {
 		private Mock<IZipAlgorithm> zipAlgorithm;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			DeleteTestFolder();
 			Directory.CreateDirectory(testFolder);
 			fileFactory = new Mock<IFileFactory>();
@@ -31,49 +34,57 @@ namespace CryptoFile.Client.Tests.Crypto {
 		}
 
 		[TearDown]
-		public void TearDown() {
+		public void TearDown()
+		{
 			DeleteTestFolder();
 		}
 
 		[Test]
-		public void CreateRsaFileDecipher_FileNameIsNull() {
+		public void CreateRsaFileDecipher_FileNameIsNull()
+		{
 			Assert.Throws(typeof(ArgumentNullException), () => rsaFactory.CreateRsaFileDecipher(null));
 		}
 
 		[Test]
-		public void CreateRsaFileDecipher_FileNameIsEmpty() {
+		public void CreateRsaFileDecipher_FileNameIsEmpty()
+		{
 			Assert.Throws(typeof(ArgumentException), () => rsaFactory.CreateRsaFileDecipher(string.Empty));
 		}
 
 		[Test]
-		public void CreateRsaFileDecipher_FileDoesNotExist() {
+		public void CreateRsaFileDecipher_FileDoesNotExist()
+		{
 			Assert.Throws(typeof(SourceFileNotFoundException), () => rsaFactory.CreateRsaFileDecipher("hello"));
 		}
 
 		[Test]
-		public void CreateRsaFileDecipher_FirstByteIs80() {
-			var fileName = Path.Combine(testFolder, "file.bin");
+		public void CreateRsaFileDecipher_FirstByteIs80()
+		{
+			string fileName = Path.Combine(testFolder, "file.bin");
 			File.WriteAllBytes(fileName, new byte[] { 80 });
-			var rsaFileDecipher = rsaFactory.CreateRsaFileDecipher(fileName);
+			IRsaFileDecipher rsaFileDecipher = rsaFactory.CreateRsaFileDecipher(fileName);
 			Assert.IsTrue(rsaFileDecipher is RsaFileDecipherZipDecorator);
 		}
 
 		[Test]
-		public void CreateRsaFileDecipher_FirstByteIsNot80() {
-			var fileName = Path.Combine(testFolder, "file.bin");
+		public void CreateRsaFileDecipher_FirstByteIsNot80()
+		{
+			string fileName = Path.Combine(testFolder, "file.bin");
 			File.WriteAllBytes(fileName, new byte[] { 0 });
-			var rsaFileDecipher = rsaFactory.CreateRsaFileDecipher(fileName);
+			IRsaFileDecipher rsaFileDecipher = rsaFactory.CreateRsaFileDecipher(fileName);
 			Assert.IsTrue(rsaFileDecipher is RsaFileDecipher);
 		}
 
 		[Test]
-		public void CreateRsaFileDecipher_FileIsEmpty() {
-			var fileName = Path.Combine(testFolder, "file.bin");
+		public void CreateRsaFileDecipher_FileIsEmpty()
+		{
+			string fileName = Path.Combine(testFolder, "file.bin");
 			File.WriteAllBytes(fileName, new byte[0]);
 			Assert.Throws(typeof(SourceFileException), () => rsaFactory.CreateRsaFileDecipher(fileName));
 		}
 
-		private static void DeleteTestFolder() {
+		private static void DeleteTestFolder()
+		{
 			if (Directory.Exists(testFolder))
 				Directory.Delete(testFolder, true);
 		}

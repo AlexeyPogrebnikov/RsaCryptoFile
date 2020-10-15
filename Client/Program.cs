@@ -8,8 +8,10 @@ using CryptoFile.Client.Forms;
 using CryptoFile.Client.Presenters;
 using CryptoFile.Client.Properties;
 
-namespace CryptoFile.Client {
-	static class Program {
+namespace CryptoFile.Client
+{
+	internal static class Program
+	{
 		private static Options options;
 		private static OptionsSaver saver;
 
@@ -17,14 +19,19 @@ namespace CryptoFile.Client {
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		private static void Main() {
+		private static void Main()
+		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.ApplicationExit += Application_ApplicationExit;
-			try {
+			try
+			{
 				Run();
-			} catch (Exception e) {
-				using (var form = new UnhandledExceptionForm()) {
+			}
+			catch (Exception e)
+			{
+				using (var form = new UnhandledExceptionForm())
+				{
 					if (options != null)
 						form.Language = options.Language;
 					form.Email = Settings.Default.Email;
@@ -35,7 +42,8 @@ namespace CryptoFile.Client {
 			}
 		}
 
-		private static void Run() {
+		private static void Run()
+		{
 			InitializeOptions();
 			var form = new MainForm();
 			form.FilesView.DirectoryImage = Resources.Folder;
@@ -48,16 +56,18 @@ namespace CryptoFile.Client {
 			Application.Run(form);
 		}
 
-		private static void InitializeOptions() {
-			var executablePath = Path.GetDirectoryName(Application.ExecutablePath);
+		private static void InitializeOptions()
+		{
+			string executablePath = Path.GetDirectoryName(Application.ExecutablePath);
 			if (executablePath == null)
 				return;
-			var fileName = Path.Combine(executablePath, "options.xml");
+			string fileName = Path.Combine(executablePath, "options.xml");
 			saver = new OptionsSaver(fileName);
 			options = saver.LoadOptions();
 		}
 
-		private static void Application_ApplicationExit(object sender, EventArgs e) {
+		private static void Application_ApplicationExit(object sender, EventArgs e)
+		{
 			saver.SaveOptions(options);
 		}
 	}

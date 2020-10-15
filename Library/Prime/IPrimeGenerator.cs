@@ -1,8 +1,10 @@
 ﻿using System;
 using CryptoFile.Library.LongArithmetic;
 
-namespace CryptoFile.Library.Prime {
-	public interface IPrimeGenerator {
+namespace CryptoFile.Library.Prime
+{
+	public interface IPrimeGenerator
+	{
 		BigNumber Generate(int length);
 
 		/// <summary>

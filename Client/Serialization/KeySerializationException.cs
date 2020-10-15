@@ -1,9 +1,16 @@
 ﻿using System;
 
-namespace CryptoFile.Client.Serialization {
+namespace CryptoFile.Client.Serialization
+{
 	[Serializable]
-	public class KeySerializationException : Exception {
-		public KeySerializationException(string message) : base(message) {}
-		public KeySerializationException(string message, Exception inner) : base(message, inner) {}
+	public class KeySerializationException : Exception
+	{
+		public KeySerializationException(string message) : base(message)
+		{
+		}
+
+		public KeySerializationException(string message, Exception inner) : base(message, inner)
+		{
+		}
 	}
 }

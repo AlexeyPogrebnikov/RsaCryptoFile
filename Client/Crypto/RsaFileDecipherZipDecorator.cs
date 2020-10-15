@@ -3,15 +3,18 @@ using CryptoFile.Client.Compression;
 using CryptoFile.Client.Environment;
 using CryptoFile.Library.Keys;
 
-namespace CryptoFile.Client.Crypto {
-	class RsaFileDecipherZipDecorator : IRsaFileDecipher {
+namespace CryptoFile.Client.Crypto
+{
+	internal class RsaFileDecipherZipDecorator : IRsaFileDecipher
+	{
 		private readonly IRsaFileDecipher rsaFileDecipher;
 		private readonly IEnvironmentHelper environmentHelper;
 		private readonly IZipAlgorithm zipAlgorithm;
 
 		public RsaFileDecipherZipDecorator(IRsaFileDecipher rsaFileDecipher,
-		                                   IEnvironmentHelper environmentHelper,
-		                                   IZipAlgorithm zipAlgorithm) {
+			IEnvironmentHelper environmentHelper,
+			IZipAlgorithm zipAlgorithm)
+		{
 			this.rsaFileDecipher = rsaFileDecipher;
 			this.environmentHelper = environmentHelper;
 			this.zipAlgorithm = zipAlgorithm;
@@ -20,37 +23,38 @@ namespace CryptoFile.Client.Crypto {
 
 		public event EventHandler BlockCompleted;
 
-		public void Stop() {
+		public void Stop()
+		{
 			rsaFileDecipher.Stop();
 		}
 
-		public void Restart() {
+		public void Restart()
+		{
 			rsaFileDecipher.Restart();
 		}
 
-		public ProcessStatus Status {
-			get { return rsaFileDecipher.Status; }
-		}
+		public ProcessStatus Status => rsaFileDecipher.Status;
 
-		public int TotalBlocks {
-			get { return rsaFileDecipher.TotalBlocks; }
-		}
+		public int TotalBlocks => rsaFileDecipher.TotalBlocks;
 
-		public int CurrentBlock {
-			get { return rsaFileDecipher.CurrentBlock; }
-		}
+		public int CurrentBlock => rsaFileDecipher.CurrentBlock;
 
-		public void Decipher(PrivateKey key, string sourceFileName, string destinationFileName) {
-			var temporaryFileName = environmentHelper.GetTempFileName();
-			try {
+		public void Decipher(PrivateKey key, string sourceFileName, string destinationFileName)
+		{
+			string temporaryFileName = environmentHelper.GetTempFileName();
+			try
+			{
 				zipAlgorithm.DecompressFile(sourceFileName, temporaryFileName);
 				rsaFileDecipher.Decipher(key, temporaryFileName, destinationFileName);
-			} finally {
+			}
+			finally
+			{
 				environmentHelper.DeleteFile(temporaryFileName);
 			}
 		}
 
-		private void rsaFileDecipher_BlockCompleted(object sender, EventArgs e) {
+		private void rsaFileDecipher_BlockCompleted(object sender, EventArgs e)
+		{
 			if (BlockCompleted != null)
 				BlockCompleted(this, e);
 		}

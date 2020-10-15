@@ -15,9 +15,11 @@ using CryptoFile.IO.Unification;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Presenters {
+namespace CryptoFile.Client.Tests.Presenters
+{
 	[TestFixture]
-	public class CipherFormPresenter_Test {
+	public class CipherFormPresenter_Test
+	{
 		private Mock<ICipherForm> cipherForm;
 		private KeySerializer keySerializer;
 		private Mock<ICommandsContainer> commandsContainer;
@@ -28,7 +30,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		private Mock<IMessageHelper> messageHelper;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			cipherForm = new Mock<ICipherForm>();
 			var serializer = new BigNumberHexSerializer();
 			keySerializer = new KeySerializer(serializer);
@@ -41,7 +44,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckSetInputFileEntities() {
+		public void Constructor_CheckSetInputFileEntities()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Length).Returns(100);
@@ -57,7 +61,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckSetTotalLengthIfInputFileEntitiesIsFile() {
+		public void Constructor_CheckSetTotalLengthIfInputFileEntitiesIsFile()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Length).Returns(500);
@@ -72,7 +77,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckSetTotalLengthIfInputFileEntitiesIsTwoFiles() {
+		public void Constructor_CheckSetTotalLengthIfInputFileEntitiesIsTwoFiles()
+		{
 			var parentDirectory = new Mock<IDirectoryInfo>();
 			parentDirectory.Setup(x => x.FullName).Returns("c:\\parent");
 			parentDirectory.Setup(x => x.Name).Returns("parent");
@@ -98,7 +104,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckOutputFileNameIfInputFileEntitiesIsOneFile() {
+		public void Constructor_CheckOutputFileNameIfInputFileEntitiesIsOneFile()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".so");
@@ -111,7 +118,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckOutputFileNameIfInputFileEntitiesIsTwoFiles() {
+		public void Constructor_CheckOutputFileNameIfInputFileEntitiesIsTwoFiles()
+		{
 			var parentDirectory = new Mock<IDirectoryInfo>();
 			parentDirectory.Setup(x => x.Exists).Returns(true);
 			parentDirectory.Setup(x => x.FullName).Returns("d:\\root");
@@ -138,7 +146,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckOutputFileNameIfInputFileEntitiesIsOneDirectory() {
+		public void Constructor_CheckOutputFileNameIfInputFileEntitiesIsOneDirectory()
+		{
 			var directoryInfo = new Mock<IDirectoryInfo>();
 			directoryInfo.Setup(x => x.Exists).Returns(true);
 			directoryInfo.Setup(x => x.FullName).Returns("c:\\hello");
@@ -153,7 +162,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckSetZip—ompression() {
+		public void Constructor_CheckSetZip—ompression()
+		{
 			options.Zip—ompression = true;
 			cipherForm.SetupProperty(x => x.Zip—ompression, false);
 			var fileInfo = new Mock<IFileInfo>();
@@ -167,7 +177,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Cipher_PublicKeyHasErrors() {
+		public void Cipher_PublicKeyHasErrors()
+		{
 			var rsaFileCipher = new Mock<IRsaFileCipher>();
 			rsaFactory.Setup(x => x.CreateRsaFileCipher()).Returns(rsaFileCipher.Object);
 
@@ -186,7 +197,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Cipher_RsaFileAlreadyExists() {
+		public void Cipher_RsaFileAlreadyExists()
+		{
 			cipherForm.SetupProperty(x => x.OutputFileName);
 			environmentHelper.Setup(x => x.FileExists("hello.rsa")).Returns(true);
 
@@ -209,13 +221,14 @@ namespace CryptoFile.Client.Tests.Presenters {
 			environmentHelper.Verify(x => x.FileExists("hello.rsa"));
 			messageHelper.Verify(
 				x =>
-				x.Show("RSA file already exists. Would you like to overwrite it?",
-				       "RSA Ù‡ÈÎ ÛÊÂ ÒÛ˘ÂÒÚ‚ÛÂÚ. ¬˚ ‰ÂÈÒÚ‚ËÚÂÎ¸ÌÓ ıÓÚËÚÂ ÔÂÂÁ‡ÔËÒ‡Ú¸ Â„Ó?", MessageBoxButtons.YesNo));
+					x.Show("RSA file already exists. Would you like to overwrite it?",
+						"RSA Ù‡ÈÎ ÛÊÂ ÒÛ˘ÂÒÚ‚ÛÂÚ. ¬˚ ‰ÂÈÒÚ‚ËÚÂÎ¸ÌÓ ıÓÚËÚÂ ÔÂÂÁ‡ÔËÒ‡Ú¸ Â„Ó?", MessageBoxButtons.YesNo));
 			rsaFactory.Verify(x => x.CreateRsaFileCipher(), Times.Never());
 		}
 
 		[Test]
-		public void CancelCipher_ProcessIsNotStarting() {
+		public void CancelCipher_ProcessIsNotStarting()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.FullName).Returns("hello.txt");
@@ -232,16 +245,17 @@ namespace CryptoFile.Client.Tests.Presenters {
 			Assert.AreEqual(DialogResult.Cancel, cipherForm.Object.DialogResult);
 		}
 
-		private void CreatePresenter(IList<FileSystemEntity> inputFileEntities) {
+		private void CreatePresenter(IList<FileSystemEntity> inputFileEntities)
+		{
 			new CipherFormPresenter(cipherForm.Object,
-			                        inputFileEntities,
-			                        rsaFactory.Object,
-			                        keySerializer,
-			                        commandsContainer.Object,
-			                        fileUnifier.Object,
-			                        environmentHelper.Object,
-			                        messageHelper.Object,
-			                        options);
+				inputFileEntities,
+				rsaFactory.Object,
+				keySerializer,
+				commandsContainer.Object,
+				fileUnifier.Object,
+				environmentHelper.Object,
+				messageHelper.Object,
+				options);
 		}
 	}
 }

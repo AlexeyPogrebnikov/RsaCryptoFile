@@ -7,43 +7,59 @@ using CryptoFile.Library;
 using Ionic.Zip;
 using Ionic.Zlib;
 
-namespace CryptoFile.Client.Compression {
-	public class ZipAlgorithm : IZipAlgorithm {
+namespace CryptoFile.Client.Compression
+{
+	public class ZipAlgorithm : IZipAlgorithm
+	{
 		private readonly IEnvironmentHelper environmentHelper;
 
-		public ZipAlgorithm(IEnvironmentHelper environmentHelper) {
+		public ZipAlgorithm(IEnvironmentHelper environmentHelper)
+		{
 			this.environmentHelper = environmentHelper;
 		}
 
-		public void CompressFile(string sourceFileName, string destinationFileName) {
+		public void CompressFile(string sourceFileName, string destinationFileName)
+		{
 			Checker.CheckString(sourceFileName);
 			Checker.CheckString(destinationFileName);
-			try {
-				using (var zipFile = new ZipFile(Encoding.Default)) {
+			try
+			{
+				using (var zipFile = new ZipFile(Encoding.Default))
+				{
 					zipFile.CompressionLevel = CompressionLevel.BestCompression;
 					zipFile.AddFile(sourceFileName, string.Empty);
 					zipFile.Save(destinationFileName);
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				throw new CompressionException(e);
 			}
 		}
 
-		public void DecompressFile(string sourceFileName, string destinationFileName) {
+		public void DecompressFile(string sourceFileName, string destinationFileName)
+		{
 			Checker.CheckString(sourceFileName);
 			Checker.CheckString(destinationFileName);
-			var temporaryPath = environmentHelper.GetTempPath();
-			try {
-				using (var zipFile = new ZipFile(sourceFileName, Encoding.Default)) {
+			string temporaryPath = environmentHelper.GetTempPath();
+			try
+			{
+				using (var zipFile = new ZipFile(sourceFileName, Encoding.Default))
+				{
 					zipFile.ExtractAll(temporaryPath);
 				}
+
 				var wrapper = new DirectoryInfoWrapper(temporaryPath);
 				var directoryEntity = new DirectoryEntity(wrapper);
-				var file = directoryEntity.GetFiles()[0];
+				FileSystemEntity file = directoryEntity.GetFiles()[0];
 				environmentHelper.CopyFile(file.FullName, destinationFileName);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				throw new CompressionException(e);
-			} finally {
+			}
+			finally
+			{
 				environmentHelper.DeleteDirectory(temporaryPath);
 			}
 		}

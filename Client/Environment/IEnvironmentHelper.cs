@@ -1,5 +1,7 @@
-namespace CryptoFile.Client.Environment {
-	public interface IEnvironmentHelper {
+namespace CryptoFile.Client.Environment
+{
+	public interface IEnvironmentHelper
+	{
 		string GetMyDocumentsPath();
 		string GetTempFileName();
 		string GetTempPath();

@@ -1,6 +1,9 @@
-namespace CryptoFile.IO.Sorting {
-	public class SortingInfo {
-		public SortingInfo(SortColumn sortColumn, SortDirection sortDirection) {
+namespace CryptoFile.IO.Sorting
+{
+	public class SortingInfo
+	{
+		public SortingInfo(SortColumn sortColumn, SortDirection sortDirection)
+		{
 			SortColumn = sortColumn;
 			SortDirection = sortDirection;
 		}

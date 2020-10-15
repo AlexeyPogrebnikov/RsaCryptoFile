@@ -6,19 +6,24 @@ using CryptoFile.IO.Entities.Wrappers;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.IO.Tests.Entities {
+namespace CryptoFile.IO.Tests.Entities
+{
 	[TestFixture]
-	public class DirectoryEntity_Test {
+	public class DirectoryEntity_Test
+	{
 		private const string testFolder = "testFolder";
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			Directory.CreateDirectory(testFolder);
 		}
 
 		[TearDown]
-		public void TearDown() {
-			if (Directory.Exists(testFolder)) {
+		public void TearDown()
+		{
+			if (Directory.Exists(testFolder))
+			{
 				Directory.Delete(testFolder, true);
 			}
 		}
@@ -26,13 +31,15 @@ namespace CryptoFile.IO.Tests.Entities {
 		#region Constructor
 
 		[Test]
-		public void Constructor_DirectoryDoesntExist() {
+		public void Constructor_DirectoryDoesntExist()
+		{
 			var info = new DirectoryInfoWrapper("hello");
 			Assert.Throws(typeof(FileEntityNotFoundException), () => new DirectoryEntity(info));
 		}
 
 		[Test]
-		public void Constructor() {
+		public void Constructor()
+		{
 			var info = new Mock<IDirectoryInfo>();
 			info.Setup(x => x.Exists).Returns(true);
 			info.Setup(x => x.Name).Returns("hello");
@@ -48,7 +55,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		#region GetFiles
 
 		[Test]
-		public void GetFiles_DirectoryDoesntExist() {
+		public void GetFiles_DirectoryDoesntExist()
+		{
 			var info = new DirectoryInfoWrapper(testFolder);
 			var entity = new DirectoryEntity(info);
 			Directory.Delete(testFolder, true);
@@ -56,7 +64,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void GetFiles() {
+		public void GetFiles()
+		{
 			File.WriteAllText(testFolder + "\\first", null);
 			var info = new DirectoryInfoWrapper(testFolder);
 			var entity = new DirectoryEntity(info);
@@ -70,7 +79,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		#region GetDirectories
 
 		[Test]
-		public void GetDirectories_DirectoryDoesntExist() {
+		public void GetDirectories_DirectoryDoesntExist()
+		{
 			var info = new DirectoryInfoWrapper(testFolder);
 			var entity = new DirectoryEntity(info);
 			Directory.Delete(testFolder, true);
@@ -78,7 +88,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void GetDirectories() {
+		public void GetDirectories()
+		{
 			Directory.CreateDirectory(testFolder + "\\dir");
 			var info = new DirectoryInfoWrapper(testFolder);
 			var entity = new DirectoryEntity(info);
@@ -92,7 +103,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		#region GetParentDirectory
 
 		[Test]
-		public void GetParentDirectory_ParentFolderDoesntExist() {
+		public void GetParentDirectory_ParentFolderDoesntExist()
+		{
 			const string parentFolderName = testFolder + "\\parent";
 			Directory.CreateDirectory(parentFolderName);
 			const string childFolderName = parentFolderName + "\\child";
@@ -104,7 +116,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void GetParentDirectoryTest() {
+		public void GetParentDirectoryTest()
+		{
 			const string dirName = testFolder + "\\hello";
 			Directory.CreateDirectory(dirName);
 			var info = new DirectoryInfoWrapper(dirName);
@@ -115,7 +128,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		#endregion
 
 		[Test]
-		public void LengthTest() {
+		public void LengthTest()
+		{
 			var directoryInfo = new Mock<IDirectoryInfo>();
 			directoryInfo.Setup(x => x.Exists).Returns(true);
 			directoryInfo.Setup(x => x.Length).Returns(10);
@@ -125,7 +139,8 @@ namespace CryptoFile.IO.Tests.Entities {
 		}
 
 		[Test]
-		public void GetDataTest() {
+		public void GetDataTest()
+		{
 			var directoryInfo = new Mock<IDirectoryInfo>();
 			directoryInfo.Setup(x => x.Exists).Returns(true);
 			directoryInfo.Setup(x => x.Length).Returns(10);

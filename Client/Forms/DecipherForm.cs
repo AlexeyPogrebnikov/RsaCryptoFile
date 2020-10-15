@@ -2,11 +2,14 @@
 using System.Windows.Forms;
 using CryptoFile.Client.Configuration;
 
-namespace CryptoFile.Client.Forms {
-	partial class DecipherForm : Form, IDecipherForm {
+namespace CryptoFile.Client.Forms
+{
+	internal partial class DecipherForm : Form, IDecipherForm
+	{
 		private Language language;
 
-		public DecipherForm() {
+		public DecipherForm()
+		{
 			InitializeComponent();
 			CheckForIllegalCrossThreadCalls = false;
 		}
@@ -21,41 +24,50 @@ namespace CryptoFile.Client.Forms {
 
 		public event EventHandler PrivateKeyChanged;
 
-		public string InputFileName {
-			get { return inputFileTextBox.Text; }
-			set { inputFileTextBox.Text = value; }
+		public string InputFileName
+		{
+			get => inputFileTextBox.Text;
+			set => inputFileTextBox.Text = value;
 		}
 
-		public string OutputDirectoryPath {
-			get { return outputDirectoryPathTextBox.Text; }
-			set { outputDirectoryPathTextBox.Text = value; }
+		public string OutputDirectoryPath
+		{
+			get => outputDirectoryPathTextBox.Text;
+			set => outputDirectoryPathTextBox.Text = value;
 		}
 
-		public string PrivateKey {
-			get { return privateKeyTextBox.Text; }
-			set { privateKeyTextBox.Text = value; }
+		public string PrivateKey
+		{
+			get => privateKeyTextBox.Text;
+			set => privateKeyTextBox.Text = value;
 		}
 
-		public bool DecipherEnabled {
-			get { return decryptButton.Enabled; }
-			set { decryptButton.Enabled = value; }
+		public bool DecipherEnabled
+		{
+			get => decryptButton.Enabled;
+			set => decryptButton.Enabled = value;
 		}
 
-		public int ProgressPercent {
-			get { return progressBar.Value; }
-			set { progressBar.Value = value; }
+		public int ProgressPercent
+		{
+			get => progressBar.Value;
+			set => progressBar.Value = value;
 		}
 
-		public bool CloseWindowAfterComlete {
-			get { return closeWindowCheckBox.Checked; }
-			set { closeWindowCheckBox.Checked = value; }
+		public bool CloseWindowAfterComlete
+		{
+			get => closeWindowCheckBox.Checked;
+			set => closeWindowCheckBox.Checked = value;
 		}
 
-		public Language Language {
-			get { return language; }
-			set {
+		public Language Language
+		{
+			get => language;
+			set
+			{
 				language = value;
-				if (language == Language.English) {
+				if (language == Language.English)
+				{
 					Text = @"Decipher";
 					inputFileLabel.Text = @"Input file:";
 					outputDirectoryPathLabel.Text = @"Output path:";
@@ -65,7 +77,9 @@ namespace CryptoFile.Client.Forms {
 					decryptButton.Text = @"Decrypt";
 					cancelButton.Text = @"Cancel";
 				}
-				if (language == Language.Russian) {
+
+				if (language == Language.Russian)
+				{
 					Text = @"Расшифрование";
 					inputFileLabel.Text = @"Входной файл:";
 					outputDirectoryPathLabel.Text = @"Выходная папка:";
@@ -80,33 +94,43 @@ namespace CryptoFile.Client.Forms {
 
 		#endregion
 
-		private void outputFileButton_Click(object sender, EventArgs e) {
+		private void outputFileButton_Click(object sender, EventArgs e)
+		{
 			folderBrowserDialog.SelectedPath = OutputDirectoryPath;
-			if (folderBrowserDialog.ShowDialog() == DialogResult.OK) {
+			if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+			{
 				OutputDirectoryPath = folderBrowserDialog.SelectedPath;
 			}
 		}
 
-		private void decipherButton_Click(object sender, EventArgs e) {
-			if (Decipher != null) {
+		private void decipherButton_Click(object sender, EventArgs e)
+		{
+			if (Decipher != null)
+			{
 				Decipher(this, e);
 			}
 		}
 
-		private void cancelButton_Click(object sender, EventArgs e) {
-			if (CancelDecipher != null) {
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			if (CancelDecipher != null)
+			{
 				CancelDecipher(this, e);
 			}
 		}
 
-		private void outputFileTextBox_TextChanged(object sender, EventArgs e) {
-			if (OutputFileNameChanged != null) {
+		private void outputFileTextBox_TextChanged(object sender, EventArgs e)
+		{
+			if (OutputFileNameChanged != null)
+			{
 				OutputFileNameChanged(this, e);
 			}
 		}
 
-		private void privateKeyTextBox_TextChanged(object sender, EventArgs e) {
-			if (PrivateKeyChanged != null) {
+		private void privateKeyTextBox_TextChanged(object sender, EventArgs e)
+		{
+			if (PrivateKeyChanged != null)
+			{
 				PrivateKeyChanged(this, e);
 			}
 		}

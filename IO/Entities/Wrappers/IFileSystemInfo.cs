@@ -1,7 +1,9 @@
 using System;
 
-namespace CryptoFile.IO.Entities.Wrappers {
-	public interface IFileSystemInfo {
+namespace CryptoFile.IO.Entities.Wrappers
+{
+	public interface IFileSystemInfo
+	{
 		IDirectoryInfo GetParentDirectory();
 		bool Exists { get; }
 		string FullName { get; }

@@ -3,17 +3,23 @@ using System.Windows.Forms;
 using CryptoFile.Client.Mapi;
 using CryptoFile.Client.Properties;
 
-namespace CryptoFile.Client {
-	public static class ErrorSender {
-		public static void Send(Exception e) {
-			var email = Settings.Default.Email;
+namespace CryptoFile.Client
+{
+	public static class ErrorSender
+	{
+		public static void Send(Exception e)
+		{
+			string email = Settings.Default.Email;
 			var body = e.ToString();
-			try {
+			try
+			{
 				var message = new MapiMessage("Unhandled Exception.", body, email);
 				message.OpenInMailClient();
-			} catch {
-				var message = string.Format("An error occurred while sending a report. Please send the report on our e-mail: {0}",
-				                            email);
+			}
+			catch
+			{
+				string message = string.Format("An error occurred while sending a report. Please send the report on our e-mail: {0}",
+					email);
 				MessageBox.Show(message);
 			}
 		}

@@ -1,10 +1,13 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace CryptoFile.Client.Mapi {
+namespace CryptoFile.Client.Mapi
+{
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-	class MapiMessage {
-		internal MapiMessage(string subject, string noteText, string recipient) {
+	internal class MapiMessage
+	{
+		internal MapiMessage(string subject, string noteText, string recipient)
+		{
 			this.subject = subject;
 			this.noteText = noteText;
 			recipCount = 1;
@@ -12,9 +15,10 @@ namespace CryptoFile.Client.Mapi {
 			recips = recipDesc.UnmanagedAddress;
 		}
 
-		internal void OpenInMailClient() {
-			var result = MAPISendMail(IntPtr.Zero, IntPtr.Zero, this, MAPI_LOGON_UI | MAPI_DIALOG, 0);
-			if (result != (int)MapiResult.SUCCESS_SUCCESS && result != (int)MapiResult.MAPI_E_USER_ABORT)
+		internal void OpenInMailClient()
+		{
+			int result = MAPISendMail(IntPtr.Zero, IntPtr.Zero, this, MAPI_LOGON_UI | MAPI_DIALOG, 0);
+			if (result != (int) MapiResult.SUCCESS_SUCCESS && result != (int) MapiResult.MAPI_E_USER_ABORT)
 				throw new MapiException(result);
 		}
 

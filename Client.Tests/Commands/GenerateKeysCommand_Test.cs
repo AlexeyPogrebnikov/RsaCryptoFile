@@ -5,9 +5,11 @@ using CryptoFile.Client.Forms;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Commands {
+namespace CryptoFile.Client.Tests.Commands
+{
 	[TestFixture]
-	public class GenerateKeysCommand_Test {
+	public class GenerateKeysCommand_Test
+	{
 		private GenerateKeysCommand command;
 		private Mock<IKeyGenerator> keyGenerator;
 		private Options options;
@@ -15,7 +17,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		private Mock<IMessageHelper> messageHelper;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			keyGenerator = new Mock<IKeyGenerator>();
 			options = new Options();
 			formFactory = new Mock<IFormFactory>();
@@ -24,7 +27,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void ExecuteTest() {
+		public void ExecuteTest()
+		{
 			var generateKeysForm = new Mock<IGenerateKeysForm>();
 			formFactory.Setup(x => x.CreateGenerateKeysForm()).Returns(generateKeysForm.Object);
 

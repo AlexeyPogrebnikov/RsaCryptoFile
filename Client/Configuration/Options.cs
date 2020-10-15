@@ -1,9 +1,12 @@
 ﻿using System.Drawing;
 using CryptoFile.IO.Sorting;
 
-namespace CryptoFile.Client.Configuration {
-	public class Options {
-		public Options() {
+namespace CryptoFile.Client.Configuration
+{
+	public class Options
+	{
+		public Options()
+		{
 			MinRsaKeyLength = 64;
 			MaxRsaKeyLength = 4096;
 			RsaKeyLength = 64;

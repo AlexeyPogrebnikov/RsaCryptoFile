@@ -1,8 +1,12 @@
 ﻿using System;
 
-namespace CryptoFile.Client.Serialization {
+namespace CryptoFile.Client.Serialization
+{
 	[Serializable]
-	public class BigNumberFormatException : ArgumentException {
-		public BigNumberFormatException(string message) : base(message) {}
+	public class BigNumberFormatException : ArgumentException
+	{
+		public BigNumberFormatException(string message) : base(message)
+		{
+		}
 	}
 }

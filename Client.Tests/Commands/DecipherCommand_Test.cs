@@ -10,9 +10,11 @@ using CryptoFile.IO.Unification;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Commands {
+namespace CryptoFile.Client.Tests.Commands
+{
 	[TestFixture]
-	public class DecipherCommand_Test {
+	public class DecipherCommand_Test
+	{
 		private DecipherCommand command;
 		private Mock<ICommandsContainer> commandsContainer;
 		private Mock<IFilesView> filesView;
@@ -23,7 +25,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		private Mock<IFileUnifier> fileUnifier;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			commandsContainer = new Mock<ICommandsContainer>();
 			filesView = new Mock<IFilesView>();
 			rsaFactory = new Mock<IRsaFactory>();
@@ -32,16 +35,17 @@ namespace CryptoFile.Client.Tests.Commands {
 			messageHelper = new Mock<IMessageHelper>();
 			fileUnifier = new Mock<IFileUnifier>();
 			command = new DecipherCommand(commandsContainer.Object,
-			                              filesView.Object,
-			                              rsaFactory.Object,
-			                              environmentHelper.Object,
-			                              formFactory.Object,
-			                              messageHelper.Object,
-			                              fileUnifier.Object);
+				filesView.Object,
+				rsaFactory.Object,
+				environmentHelper.Object,
+				formFactory.Object,
+				messageHelper.Object,
+				fileUnifier.Object);
 		}
 
 		[Test]
-		public void Execute_SelectedFileIsNotRsa() {
+		public void Execute_SelectedFileIsNotRsa()
+		{
 			var decipherForm = new Mock<IDecipherForm>();
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.FullName).Returns("c:\\file.txt");
@@ -60,7 +64,8 @@ namespace CryptoFile.Client.Tests.Commands {
 		}
 
 		[Test]
-		public void ExecuteTest() {
+		public void ExecuteTest()
+		{
 			var decipherForm = new Mock<IDecipherForm>();
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.FullName).Returns("c:\\file.rsa");

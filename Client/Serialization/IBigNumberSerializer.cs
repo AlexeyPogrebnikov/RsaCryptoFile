@@ -1,8 +1,10 @@
 ﻿using System;
 using CryptoFile.Library.LongArithmetic;
 
-namespace CryptoFile.Client.Serialization {
-	interface IBigNumberSerializer {
+namespace CryptoFile.Client.Serialization
+{
+	internal interface IBigNumberSerializer
+	{
 		/// <exception cref="ArgumentNullException">number is null</exception>
 		string Serialize(BigNumber number);
 

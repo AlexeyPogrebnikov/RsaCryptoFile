@@ -5,32 +5,38 @@ using System.Runtime.InteropServices;
 using CryptoFile.IO.Entities.Wrappers;
 using CryptoFile.Library;
 
-namespace CryptoFile.IO.Entities {
-	public abstract class FileSystemEntity {
+namespace CryptoFile.IO.Entities
+{
+	public abstract class FileSystemEntity
+	{
 		private readonly IFileSystemInfo info;
 
 		/// <exception cref="ArgumentNullException">info is null</exception>
 		/// <exception cref="FileEntityNotFoundException">info.FullName not found</exception>
-		protected FileSystemEntity(IFileSystemInfo info) {
+		protected FileSystemEntity(IFileSystemInfo info)
+		{
 			this.info = info;
 			Checker.CheckNull(info);
-			if (!info.Exists) {
+			if (!info.Exists)
+			{
 				throw new FileEntityNotFoundException(info.FullName + " not found.");
 			}
+
 			Name = info.Name;
 			FullName = info.FullName;
 			ModifiedDate = info.ModifiedDate;
 			var shinfo = new SHFILEINFO();
-			Win32.SHGetFileInfo(info.FullName, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo),
-			                    Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON | Win32.SHGFI_TYPENAME);
+			Win32.SHGetFileInfo(info.FullName, 0, ref shinfo, (uint) Marshal.SizeOf(shinfo),
+				Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON | Win32.SHGFI_TYPENAME);
 			Type = shinfo.szTypeName;
 			if (shinfo.hIcon.ToInt32() != 0)
 				Icon = Icon.FromHandle(shinfo.hIcon);
 		}
 
 		/// <exception cref="FileEntityNotFoundException">parent folder not found</exception>
-		public IDirectoryEntity GetParentDirectory() {
-			var parent = info.GetParentDirectory();
+		public IDirectoryEntity GetParentDirectory()
+		{
+			IDirectoryInfo parent = info.GetParentDirectory();
 			return parent == null ? null : new DirectoryEntity(parent);
 		}
 

@@ -12,9 +12,11 @@ using CryptoFile.IO.Unification;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Presenters {
+namespace CryptoFile.Client.Tests.Presenters
+{
 	[TestFixture]
-	public class DecipherFormPresenter_Test {
+	public class DecipherFormPresenter_Test
+	{
 		private Mock<IDecipherForm> decipherForm;
 		private Mock<IRsaFactory> rsaFactory;
 		private KeySerializer keySerializer;
@@ -24,7 +26,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		private Mock<IFileUnifier> fileUnifier;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			decipherForm = new Mock<IDecipherForm>();
 			rsaFactory = new Mock<IRsaFactory>();
 			keySerializer = new KeySerializer(new BigNumberHexSerializer());
@@ -35,7 +38,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Constructor_CheckSetOutputDirectoryPath() {
+		public void Constructor_CheckSetOutputDirectoryPath()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.Extension).Returns(".rsa");
@@ -51,7 +55,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void CancelCipher_ProcessIsNotStarting() {
+		public void CancelCipher_ProcessIsNotStarting()
+		{
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			fileInfo.Setup(x => x.FullName).Returns("hello.rsa");
@@ -69,7 +74,8 @@ namespace CryptoFile.Client.Tests.Presenters {
 		}
 
 		[Test]
-		public void Decipher_OutputPathAlreadyExists() {
+		public void Decipher_OutputPathAlreadyExists()
+		{
 			decipherForm.SetupProperty(x => x.OutputDirectoryPath);
 
 			const string path = "t:\\dir";
@@ -91,21 +97,22 @@ namespace CryptoFile.Client.Tests.Presenters {
 
 			messageHelper.Verify(
 				x =>
-				x.Show("Directory already exists. Would you like to overwrite it?",
-				       "Папка уже существует. Вы хотите перезаписать ее?", MessageBoxButtons.YesNo));
+					x.Show("Directory already exists. Would you like to overwrite it?",
+						"Папка уже существует. Вы хотите перезаписать ее?", MessageBoxButtons.YesNo));
 
 			rsaFactory.Verify(x => x.CreateRsaFileDecipher(It.IsAny<string>()), Times.Never());
 		}
 
-		private void CreatePresenter(FileSystemEntity initialFile) {
+		private void CreatePresenter(FileSystemEntity initialFile)
+		{
 			new DecipherFormPresenter(decipherForm.Object,
-			                          rsaFactory.Object,
-			                          keySerializer,
-			                          commandsContainer.Object,
-			                          initialFile,
-			                          environmentHelper.Object,
-			                          messageHelper.Object,
-			                          fileUnifier.Object);
+				rsaFactory.Object,
+				keySerializer,
+				commandsContainer.Object,
+				initialFile,
+				environmentHelper.Object,
+				messageHelper.Object,
+				fileUnifier.Object);
 		}
 	}
 }

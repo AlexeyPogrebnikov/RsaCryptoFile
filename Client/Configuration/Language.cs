@@ -1,5 +1,7 @@
-namespace CryptoFile.Client.Configuration {
-	public enum Language {
+namespace CryptoFile.Client.Configuration
+{
+	public enum Language
+	{
 		English,
 		Russian
 	}

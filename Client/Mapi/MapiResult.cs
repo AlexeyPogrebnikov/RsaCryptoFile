@@ -1,5 +1,7 @@
-namespace CryptoFile.Client.Mapi {
-	enum MapiResult {
+namespace CryptoFile.Client.Mapi
+{
+	internal enum MapiResult
+	{
 		SUCCESS_SUCCESS = 0,
 		MAPI_E_USER_ABORT = 1,
 		MAPI_E_FAILURE = 2,

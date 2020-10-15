@@ -1,5 +1,7 @@
-namespace CryptoFile.IO.Reading {
-	public interface IRsaFileReader : IFileReader {
+namespace CryptoFile.IO.Reading
+{
+	public interface IRsaFileReader : IFileReader
+	{
 		void ReadHeader();
 		byte Version { get; }
 		short BlockLength { get; }

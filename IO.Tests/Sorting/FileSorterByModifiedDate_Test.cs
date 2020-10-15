@@ -6,17 +6,21 @@ using CryptoFile.IO.Sorting;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.IO.Tests.Sorting {
-	public class FileSorterByModifiedDate_Test {
+namespace CryptoFile.IO.Tests.Sorting
+{
+	public class FileSorterByModifiedDate_Test
+	{
 		private FileSorterByModifiedDate sorter;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			sorter = new FileSorterByModifiedDate();
 		}
 
 		[Test]
-		public void SortTest() {
+		public void SortTest()
+		{
 			var entities = new List<FileSystemEntity>();
 
 			var fileInfoForFirst = new Mock<IFileInfo>();
@@ -37,7 +41,8 @@ namespace CryptoFile.IO.Tests.Sorting {
 		}
 
 		[Test]
-		public void ChangeDirection() {
+		public void ChangeDirection()
+		{
 			var entities = new List<FileSystemEntity>();
 
 			var fileInfoForFirst = new Mock<IFileInfo>();

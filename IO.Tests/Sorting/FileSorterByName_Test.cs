@@ -5,18 +5,22 @@ using CryptoFile.IO.Sorting;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.IO.Tests.Sorting {
+namespace CryptoFile.IO.Tests.Sorting
+{
 	[TestFixture]
-	public class FileSorterByName_Test {
+	public class FileSorterByName_Test
+	{
 		private FileSorterByName sorter;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			sorter = new FileSorterByName();
 		}
 
 		[Test]
-		public void SortTest() {
+		public void SortTest()
+		{
 			var entities = new List<FileSystemEntity>();
 
 			var fileInfoForFirst = new Mock<IFileInfo>();

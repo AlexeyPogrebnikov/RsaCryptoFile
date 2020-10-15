@@ -2,23 +2,28 @@
 using CryptoFile.IO;
 using CryptoFile.Library;
 
-namespace CryptoFile.Client.Crypto {
-	class RsaCryptoFile : IRsaCryptoFile {
+namespace CryptoFile.Client.Crypto
+{
+	internal class RsaCryptoFile : IRsaCryptoFile
+	{
 		protected readonly IFileFactory factory;
 
 		/// <exception cref="ArgumentNullException">factory is null</exception>
-		public RsaCryptoFile(IFileFactory factory) {
+		public RsaCryptoFile(IFileFactory factory)
+		{
 			Checker.CheckNull(factory);
 			this.factory = factory;
 		}
 
 		public event EventHandler BlockCompleted;
 
-		public void Stop() {
+		public void Stop()
+		{
 			Status = ProcessStatus.Stopped;
 		}
 
-		public void Restart() {
+		public void Restart()
+		{
 			Status = ProcessStatus.NotBeginning;
 		}
 
@@ -26,8 +31,10 @@ namespace CryptoFile.Client.Crypto {
 		public int TotalBlocks { get; protected set; }
 		public int CurrentBlock { get; protected set; }
 
-		protected void OnBlockCompleted() {
-			if (BlockCompleted != null) {
+		protected void OnBlockCompleted()
+		{
+			if (BlockCompleted != null)
+			{
 				BlockCompleted(this, EventArgs.Empty);
 			}
 		}

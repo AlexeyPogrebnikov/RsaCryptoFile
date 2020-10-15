@@ -4,13 +4,16 @@ using System.Windows.Forms;
 using CryptoFile.Client.Configuration;
 using CryptoFile.IO.Entities;
 
-namespace CryptoFile.Client.Forms {
-	partial class CipherForm : Form, ICipherForm {
+namespace CryptoFile.Client.Forms
+{
+	internal partial class CipherForm : Form, ICipherForm
+	{
 		private IEnumerable<FileSystemEntity> fileEntities;
 		private Language language;
 		private long totalLength;
 
-		public CipherForm() {
+		public CipherForm()
+		{
 			InitializeComponent();
 			CheckForIllegalCrossThreadCalls = false;
 		}
@@ -25,12 +28,15 @@ namespace CryptoFile.Client.Forms {
 
 		public event EventHandler PublicKeyChanged;
 
-		public IEnumerable<FileSystemEntity> InputFileEntities {
-			get { return fileEntities; }
-			set {
+		public IEnumerable<FileSystemEntity> InputFileEntities
+		{
+			get => fileEntities;
+			set
+			{
 				fileEntities = value;
-				foreach (var fileEntity in value) {
-					var images = selectedFileEntitiesListView.SmallImageList.Images;
+				foreach (FileSystemEntity fileEntity in value)
+				{
+					ImageList.ImageCollection images = selectedFileEntitiesListView.SmallImageList.Images;
 					images.Add(fileEntity.Icon);
 					var item = new ListViewItem(fileEntity.Name);
 					item.ImageIndex = images.Count - 1;
@@ -40,51 +46,62 @@ namespace CryptoFile.Client.Forms {
 			}
 		}
 
-		public long TotalLength {
-			get { return totalLength; }
-			set {
+		public long TotalLength
+		{
+			get => totalLength;
+			set
+			{
 				totalLength = value;
 				RefreshTotalLength();
 			}
 		}
 
-		public string OutputFileName {
-			get { return outputFileTextBox.Text; }
-			set { outputFileTextBox.Text = value; }
+		public string OutputFileName
+		{
+			get => outputFileTextBox.Text;
+			set => outputFileTextBox.Text = value;
 		}
 
-		public string PublicKey {
-			get { return publicKeyTextBox.Text; }
-			set { publicKeyTextBox.Text = value; }
+		public string PublicKey
+		{
+			get => publicKeyTextBox.Text;
+			set => publicKeyTextBox.Text = value;
 		}
 
-		public bool CipherEnabled {
-			get { return cipherButton.Enabled; }
-			set { cipherButton.Enabled = value; }
+		public bool CipherEnabled
+		{
+			get => cipherButton.Enabled;
+			set => cipherButton.Enabled = value;
 		}
 
-		public int ProgressPercent {
-			get { return progressBar.Value; }
-			set { progressBar.Value = value; }
+		public int ProgressPercent
+		{
+			get => progressBar.Value;
+			set => progressBar.Value = value;
 		}
 
-		public bool CloseWindowAfterComlete {
-			get { return closeWindowCheckBox.Checked; }
-			set { closeWindowCheckBox.Checked = value; }
+		public bool CloseWindowAfterComlete
+		{
+			get => closeWindowCheckBox.Checked;
+			set => closeWindowCheckBox.Checked = value;
 		}
 
-		public bool ZipСompression {
-			get { return zipСompressionСheckBox.Checked; }
-			set { zipСompressionСheckBox.Checked = value; }
+		public bool ZipСompression
+		{
+			get => zipСompressionСheckBox.Checked;
+			set => zipСompressionСheckBox.Checked = value;
 		}
 
 		#endregion
 
-		public Language Language {
-			get { return language; }
-			set {
+		public Language Language
+		{
+			get => language;
+			set
+			{
 				language = value;
-				if (language == Language.English) {
+				if (language == Language.English)
+				{
 					Text = @"Encryption";
 					selectedFileEntitiesLabel.Text = @"Selected files and folders:";
 					nameColumnHeader.Text = @"Name";
@@ -98,7 +115,9 @@ namespace CryptoFile.Client.Forms {
 					cipherButton.Text = @"Cipher";
 					cancelButton.Text = @"Cancel";
 				}
-				if (language == Language.Russian) {
+
+				if (language == Language.Russian)
+				{
 					Text = @"Шифрование";
 					selectedFileEntitiesLabel.Text = @"Выбранные файлы и папки:";
 					nameColumnHeader.Text = @"Имя";
@@ -115,41 +134,55 @@ namespace CryptoFile.Client.Forms {
 			}
 		}
 
-		private void cipherButton_Click(object sender, EventArgs e) {
-			if (Cipher != null) {
+		private void cipherButton_Click(object sender, EventArgs e)
+		{
+			if (Cipher != null)
+			{
 				Cipher(this, e);
 			}
 		}
 
-		private void cancelButton_Click(object sender, EventArgs e) {
-			if (CancelCipher != null) {
+		private void cancelButton_Click(object sender, EventArgs e)
+		{
+			if (CancelCipher != null)
+			{
 				CancelCipher(this, e);
 			}
 		}
 
-		private void outputFileTextBox_TextChanged(object sender, EventArgs e) {
-			if (OutputFileNameChanged != null) {
+		private void outputFileTextBox_TextChanged(object sender, EventArgs e)
+		{
+			if (OutputFileNameChanged != null)
+			{
 				OutputFileNameChanged(this, e);
 			}
 		}
 
-		private void publicKeyTextBox_TextChanged(object sender, EventArgs e) {
-			if (PublicKeyChanged != null) {
+		private void publicKeyTextBox_TextChanged(object sender, EventArgs e)
+		{
+			if (PublicKeyChanged != null)
+			{
 				PublicKeyChanged(this, e);
 			}
 		}
 
-		private void outputFileButton_Click(object sender, EventArgs e) {
-			if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+		private void outputFileButton_Click(object sender, EventArgs e)
+		{
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
 				outputFileTextBox.Text = saveFileDialog.FileName;
 			}
 		}
 
-		private void RefreshTotalLength() {
-			if (Language == Language.English) {
+		private void RefreshTotalLength()
+		{
+			if (Language == Language.English)
+			{
 				totalLengthLabel.Text = string.Format("Total length: {0} bytes", totalLength);
 			}
-			if (Language == Language.Russian) {
+
+			if (Language == Language.Russian)
+			{
 				totalLengthLabel.Text = string.Format("Общий размер: {0} байт", totalLength);
 			}
 		}

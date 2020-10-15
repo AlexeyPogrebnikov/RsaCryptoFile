@@ -13,16 +13,19 @@ using CryptoFile.Library.LongArithmetic;
 using Moq;
 using NUnit.Framework;
 
-namespace CryptoFile.Client.Tests.Management {
+namespace CryptoFile.Client.Tests.Management
+{
 	[TestFixture]
-	public class CipherManager_Test {
+	public class CipherManager_Test
+	{
 		private CipherManager cipherManager;
 		private Mock<IEnvironmentHelper> environmentHelper;
 		private const string testFolder = "testFolder";
 		private Mock<IMessageHelper> messageHelper;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			DeleteTestFolder();
 			Directory.CreateDirectory(testFolder);
 
@@ -31,32 +34,35 @@ namespace CryptoFile.Client.Tests.Management {
 			environmentHelper = new Mock<IEnvironmentHelper>();
 			messageHelper = new Mock<IMessageHelper>();
 			cipherManager = new CipherManager(rsaFileCipher.Object,
-			                                  fileUnifier.Object,
-			                                  environmentHelper.Object,
-			                                  messageHelper.Object);
+				fileUnifier.Object,
+				environmentHelper.Object,
+				messageHelper.Object);
 		}
 
 		[TearDown]
-		public void TearDown() {
+		public void TearDown()
+		{
 			DeleteTestFolder();
 		}
 
 		[Test]
-		public void Cipher_InputFileEntitiesIsEmpty() {
-			var publicKey = CreatePublicKey(3, 20);
+		public void Cipher_InputFileEntitiesIsEmpty()
+		{
+			PublicKey publicKey = CreatePublicKey(3, 20);
 			Assert.Throws(typeof(ArgumentException), () => cipherManager.Cipher(publicKey, new FileSystemEntity[0], "hello"));
 		}
 
 		[Test]
-		public void Cipher_CheckUseTemporaryFile() {
-			var publicKey = CreatePublicKey(3, 7);
+		public void Cipher_CheckUseTemporaryFile()
+		{
+			PublicKey publicKey = CreatePublicKey(3, 7);
 			var fileSystemEntities = new List<FileSystemEntity>();
 			var fileInfo = new Mock<IFileInfo>();
 			fileInfo.Setup(x => x.Exists).Returns(true);
 			var fileEntity = new FileEntity(fileInfo.Object);
 			fileSystemEntities.Add(fileEntity);
-			var outputFileName = Path.Combine(testFolder, "outputFileName.rsa");
-			var temporaryFileName = Path.Combine(testFolder, "temporary.bin");
+			string outputFileName = Path.Combine(testFolder, "outputFileName.rsa");
+			string temporaryFileName = Path.Combine(testFolder, "temporary.bin");
 			environmentHelper.Setup(x => x.GetTempFileName()).Returns(temporaryFileName);
 
 			cipherManager.Cipher(publicKey, fileSystemEntities, outputFileName);
@@ -65,9 +71,10 @@ namespace CryptoFile.Client.Tests.Management {
 		}
 
 		[Test]
-		public void Cipher_Decipher() {
-			var outputFileName = Path.Combine(testFolder, "outputFileName.rsa");
-			var temporaryFileName = Path.Combine(testFolder, "temporary.bin");
+		public void Cipher_Decipher()
+		{
+			string outputFileName = Path.Combine(testFolder, "outputFileName.rsa");
+			string temporaryFileName = Path.Combine(testFolder, "temporary.bin");
 			environmentHelper.Setup(x => x.GetTempFileName()).Returns(temporaryFileName);
 			var fileFactory = new FileFactory(4);
 			var rsaFileCipher = new RsaFileCipher(fileFactory);
@@ -75,12 +82,12 @@ namespace CryptoFile.Client.Tests.Management {
 			var manager = new CipherManager(rsaFileCipher, fileUnifier, environmentHelper.Object, messageHelper.Object);
 			// public key: 05#B781262C2090AD
 			// private key: 6E1A49FEAC0471#B781262C2090AD
-			var e = BigNumber.FromInt(5);
-			var d = BigNumber.FromBytes(new[] { 113, 4, 172, 254, 73, 26, 110 });
-			var n = BigNumber.FromBytes(new[] { 173, 144, 32, 44, 38, 129, 183 });
+			BigNumber e = BigNumber.FromInt(5);
+			BigNumber d = BigNumber.FromBytes(new[] { 113, 4, 172, 254, 73, 26, 110 });
+			BigNumber n = BigNumber.FromBytes(new[] { 173, 144, 32, 44, 38, 129, 183 });
 			var publicKey = new PublicKey(e, n);
 			var privateKey = new PrivateKey(d, n);
-			var sourceFileName = Path.Combine(testFolder, "file.bin");
+			string sourceFileName = Path.Combine(testFolder, "file.bin");
 			File.WriteAllBytes(sourceFileName, new byte[] { 45, 129, 240 });
 			var directoryInfoWrapper = new DirectoryInfoWrapper(testFolder);
 			var fileInfoWrapper = new FileInfoWrapper(new FileInfo(sourceFileName), directoryInfoWrapper);
@@ -88,21 +95,23 @@ namespace CryptoFile.Client.Tests.Management {
 			manager.Cipher(publicKey, new FileSystemEntity[] { fileEntity }, outputFileName);
 
 			var decipherManager = new DecipherManager(environmentHelper.Object, new RsaFileDecipher(fileFactory),
-			                                          messageHelper.Object, fileUnifier);
-			var outputPath = Path.Combine(testFolder, "outputPath");
+				messageHelper.Object, fileUnifier);
+			string outputPath = Path.Combine(testFolder, "outputPath");
 			decipherManager.Decipher(privateKey, outputFileName, outputPath);
 
 			Assert.IsTrue(Directory.Exists(outputPath));
-			var fileName = Path.Combine(outputPath, "file.bin");
+			string fileName = Path.Combine(outputPath, "file.bin");
 			Assert.IsTrue(File.Exists(fileName));
-			TestHelper.CheckFile(fileName, new byte[] { 45, 129, 240 });
+			TestHelper.CheckFile(fileName, 45, 129, 240);
 		}
 
-		private static PublicKey CreatePublicKey(int e, int n) {
+		private static PublicKey CreatePublicKey(int e, int n)
+		{
 			return new PublicKey(BigNumber.FromInt(e), BigNumber.FromInt(n));
 		}
 
-		private static void DeleteTestFolder() {
+		private static void DeleteTestFolder()
+		{
 			if (Directory.Exists(testFolder))
 				Directory.Delete(testFolder, true);
 		}

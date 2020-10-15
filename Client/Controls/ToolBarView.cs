@@ -2,11 +2,14 @@
 using System.Windows.Forms;
 using CryptoFile.Client.Configuration;
 
-namespace CryptoFile.Client.Controls {
-	public partial class ToolBarView : UserControl, IToolBarView {
+namespace CryptoFile.Client.Controls
+{
+	public partial class ToolBarView : UserControl, IToolBarView
+	{
 		private Language language;
 
-		public ToolBarView() {
+		public ToolBarView()
+		{
 			InitializeComponent();
 		}
 
@@ -16,9 +19,10 @@ namespace CryptoFile.Client.Controls {
 
 		public event EventHandler RefreshDirectory;
 
-		public bool ToUpperDirectoryEnabled {
-			get { return toUpperDirectoryToolStripButton.Enabled; }
-			set { toUpperDirectoryToolStripButton.Enabled = value; }
+		public bool ToUpperDirectoryEnabled
+		{
+			get => toUpperDirectoryToolStripButton.Enabled;
+			set => toUpperDirectoryToolStripButton.Enabled = value;
 		}
 
 		#endregion
@@ -35,28 +39,35 @@ namespace CryptoFile.Client.Controls {
 
 		#region ICryptoView Members
 
-		public bool CipherEnabled {
-			get { return cipherToolStripButton.Enabled; }
-			set { cipherToolStripButton.Enabled = value; }
+		public bool CipherEnabled
+		{
+			get => cipherToolStripButton.Enabled;
+			set => cipherToolStripButton.Enabled = value;
 		}
 
-		public bool DecipherEnabled {
-			get { return decipherToolStripButton.Enabled; }
-			set { decipherToolStripButton.Enabled = value; }
+		public bool DecipherEnabled
+		{
+			get => decipherToolStripButton.Enabled;
+			set => decipherToolStripButton.Enabled = value;
 		}
 
-		public Language Language {
-			get { return language; }
-			set {
+		public Language Language
+		{
+			get => language;
+			set
+			{
 				language = value;
-				if (language == Language.English) {
+				if (language == Language.English)
+				{
 					toUpperDirectoryToolStripButton.ToolTipText = @"Up";
 					refreshToolStripButton.ToolTipText = @"Refresh";
 					cipherToolStripButton.ToolTipText = @"Cipher";
 					decipherToolStripButton.ToolTipText = @"Decipher";
 					generateKeysToolStripButton.ToolTipText = @"Generate keys";
 				}
-				if (language == Language.Russian) {
+
+				if (language == Language.Russian)
+				{
 					toUpperDirectoryToolStripButton.ToolTipText = @"Вверх";
 					refreshToolStripButton.ToolTipText = @"Обновить";
 					cipherToolStripButton.ToolTipText = @"Шифровать";
@@ -68,32 +79,42 @@ namespace CryptoFile.Client.Controls {
 
 		#endregion
 
-		private void toUpperDirectoryToolStripButton_Click(object sender, EventArgs e) {
-			if (ToUpperDirectory != null) {
+		private void toUpperDirectoryToolStripButton_Click(object sender, EventArgs e)
+		{
+			if (ToUpperDirectory != null)
+			{
 				ToUpperDirectory(this, e);
 			}
 		}
 
-		private void refreshToolStripButton_Click(object sender, EventArgs e) {
-			if (RefreshDirectory != null) {
+		private void refreshToolStripButton_Click(object sender, EventArgs e)
+		{
+			if (RefreshDirectory != null)
+			{
 				RefreshDirectory(this, e);
 			}
 		}
 
-		private void cipherToolStripButton_Click(object sender, EventArgs e) {
-			if (Cipher != null) {
+		private void cipherToolStripButton_Click(object sender, EventArgs e)
+		{
+			if (Cipher != null)
+			{
 				Cipher(this, e);
 			}
 		}
 
-		private void decipherToolStripButton_Click(object sender, EventArgs e) {
-			if (Decipher != null) {
+		private void decipherToolStripButton_Click(object sender, EventArgs e)
+		{
+			if (Decipher != null)
+			{
 				Decipher(this, e);
 			}
 		}
 
-		private void generateKeysToolStripButton_Click(object sender, EventArgs e) {
-			if (GenerateKeys != null) {
+		private void generateKeysToolStripButton_Click(object sender, EventArgs e)
+		{
+			if (GenerateKeys != null)
+			{
 				GenerateKeys(this, e);
 			}
 		}
