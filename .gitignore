@@ -1,7 +1,6 @@
 *.user
 
 packages/
-lib/
 .vs/
 Client/bin/
 Client/obj/

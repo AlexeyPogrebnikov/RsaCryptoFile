@@ -57,7 +57,12 @@ namespace CryptoFile.IO.Unification
 
 			try
 			{
-				using (ZipFile zipReader = ZipFile.Read(sourceFileName, Encoding.Default))
+				var readOptions = new ReadOptions
+				{
+					Encoding = Encoding.Default
+				};
+
+				using (ZipFile zipReader = ZipFile.Read(sourceFileName, readOptions))
 				{
 					foreach (ZipEntry zipEntry in zipReader)
 					{
