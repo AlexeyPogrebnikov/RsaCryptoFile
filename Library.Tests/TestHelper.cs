@@ -11,11 +11,6 @@ namespace CryptoFile.Library.Tests
 			CheckNumber(number.Numbers, expectedNumbers);
 		}
 
-		public static void CheckNumber(BooleanBigNumber number, params byte[] expectedNumbers)
-		{
-			CheckNumber(number.GetBytes(), expectedNumbers);
-		}
-
 		private static void CheckNumber<T>(IList<T> actualNumbers, IList<T> expectedNumbers)
 		{
 			Assert.AreEqual(expectedNumbers.Count, actualNumbers.Count,

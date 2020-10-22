@@ -52,7 +52,6 @@
     <Compile Include="LongArithmetic\BigNumber_FullTest.cs" />
     <Compile Include="LongArithmetic\BigNumber_ModTest.cs" />
     <Compile Include="LongArithmetic\BigNumber_Test.cs" />
-    <Compile Include="LongArithmetic\BooleanBigNumber_Test.cs" />
     <Compile Include="Prime\MultiplicityChecker_Test.cs" />
     <Compile Include="Prime\PrimeGenerator_Test.cs" />
     <Compile Include="Prime\RabinMillerTest_FullTest.cs" />

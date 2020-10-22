@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LongArithmetic\BooleanBigNumber.cs" />
     <Compile Include="Prime\IPrimeGenerator.cs" />
     <Compile Include="LongArithmetic\BigNumber.cs" />
     <Compile Include="Checker.cs" />
