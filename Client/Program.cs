@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Autofac;
+using Autofac.Extras.CommonServiceLocator;
+using CommonServiceLocator;
 using CryptoFile.Client.Commands;
 using CryptoFile.Client.Configuration;
 using CryptoFile.Client.Environment;
@@ -26,6 +29,7 @@ namespace CryptoFile.Client
 			Application.ApplicationExit += Application_ApplicationExit;
 			try
 			{
+				RegisterServices();
 				Run();
 			}
 			catch (Exception e)
@@ -40,6 +44,16 @@ namespace CryptoFile.Client
 					form.ShowDialog();
 				}
 			}
+		}
+
+		private static void RegisterServices()
+		{
+			var builder = new ContainerBuilder();
+
+			IContainer container = builder.Build();
+
+			var serviceLocator = new AutofacServiceLocator(container);
+			ServiceLocator.SetLocatorProvider(() => serviceLocator);
 		}
 
 		private static void Run()
